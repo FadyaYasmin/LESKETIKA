@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesketika - Bimbel Dadakan & Peer Tutoring Mahasiswa</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                            950: '#031E35', 
+                            1000: '#011222', 
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #011222;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #075985;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38bdf8;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @keyframes float-gentle {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float {
+            animation: float-gentle 6s ease-in-out infinite;
+        }
+
+        /* Marquee horizontal continuous scroll */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            animation: marquee 35s linear infinite;
+        }
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
+
+        /* Refined Time Slot Button Active Spring Animations */
+        .time-slot-btn {
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .time-slot-btn:active {
+            transform: scale(0.90) rotate(-1deg);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        /* Carousel transitions */
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+    </style>
+</head>
+<body class="bg-brand-1000 text-slate-100 font-sans antialiased overflow-x-hidden relative">
+
+    <!-- Ambient Blue & Cyan Lights -->
+    <div class="absolute top-0 left-10 w-[450px] h-[450px] bg-brand-600/10 rounded-full blur-[130px] pointer-events-none"></div>
+    <div class="absolute top-[800px] right-10 w-[500px] h-[500px] bg-brand-400/5 rounded-full blur-[150px] pointer-events-none"></div>
+    <div class="absolute bottom-[400px] left-1/3 w-[600px] h-[600px] bg-brand-700/10 rounded-full blur-[160px] pointer-events-none"></div>
+
+    <!-- NAVBAR (Concise & Clean) -->
+    <nav class="sticky top-0 z-40 bg-brand-1000/80 backdrop-blur-md border-b border-brand-900/60 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-14">
+                <!-- Brand Identity -->
+                <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <div class="w-8 h-8 bg-gradient-to-tr from-brand-500 to-brand-300 rounded-lg flex items-center justify-center shadow-lg shadow-brand-500/15">
+                        <i class="fa-solid fa-graduation-cap text-brand-1000 text-xs"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-base font-extrabold tracking-tight bg-gradient-to-r from-white to-brand-300 bg-clip-text text-transparent">Lesketika</span>
+                    </div>
+                </div>
+
+                <!-- Short & Essential Nav Links -->
+                <div class="flex items-center gap-6">
+                    <a href="#pengajar" class="text-xs font-semibold text-slate-300 hover:text-brand-400 transition-colors hidden sm:block">Tutor Aktif</a>
+                    <a href="#cara-gabung" class="text-xs font-semibold text-slate-300 hover:text-brand-400 transition-colors hidden sm:block">Cara Daftar</a>
+                    <button onclick="openBookingModal()" class="bg-gradient-to-r from-brand-600 to-brand-400 hover:from-brand-500 hover:to-brand-300 text-brand-1000 px-3.5 py-1.5 rounded-lg text-xs font-extrabold transition-all transform hover:scale-[1.02]">
+                        <i class="fa-solid fa-bolt mr-1"></i> Order SKS
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="relative pt-10 pb-16 md:py-24 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Hero Left Content -->
+                <div class="lg:col-span-7 space-y-5 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-900/40 border border-brand-800 text-brand-300 text-[11px] font-semibold">
+                        <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-ping"></span>
+                        Bimbingan Belajar Dadakan Mahasiswa Tercepat & Terpercaya
+                    </div>
+                    
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+                        Butuh Tutor SKS <br>
+                        <span class="bg-gradient-to-r from-brand-300 via-brand-400 to-white bg-clip-text text-transparent">Malam Ini Juga?</span>
+                    </h1>
+                    
+                    <p class="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                        Tugas menumpuk? Besok ujian berat? Cari mentor handal dari sesama mahasiswa berprestasi nasional (*Peer Tutors*) atau Dosen Pakar secara instan. Jadwalkan sesi 1 jam Anda baik secara <strong class="text-brand-300">Online</strong> maupun <strong class="text-brand-300">Offline</strong> sekarang!
+                    </p>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
+                        <button onclick="openBookingModal()" class="w-full sm:w-auto bg-gradient-to-r from-brand-500 to-brand-300 hover:from-brand-400 hover:to-white text-brand-1000 px-6 py-3.5 rounded-xl font-bold text-xs shadow-lg shadow-brand-500/20 transform hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-calendar-check text-sm"></i> Mulai Sesi Dadakan Sekarang
+                        </button>
+                        <a href="#pengajar" class="w-full sm:w-auto text-center border border-brand-800 hover:border-brand-500 text-slate-300 hover:text-white px-6 py-3.5 rounded-xl text-xs font-semibold transition-all bg-brand-950/20">
+                            Lihat Tutor Aktif
+                        </a>
+                    </div>
+
+                    <!-- Trust Stats -->
+                    <div class="grid grid-cols-3 gap-4 pt-5 border-t border-brand-900/60 max-w-sm mx-auto lg:mx-0 text-left">
+                        <div>
+                            <p class="text-lg font-extrabold text-white">1 Jam</p>
+                            <p class="text-[9px] text-slate-400 font-medium">Respons Kilat</p>
+                        </div>
+                        <div>
+                            <p class="text-lg font-extrabold text-white">12+</p>
+                            <p class="text-[9px] text-slate-400 font-medium">Pilihan Sesi SKS</p>
+                        </div>
+                        <div>
+                            <p class="text-lg font-extrabold text-white">Online/Offline</p>
+                            <p class="text-[9px] text-slate-400 font-medium">Bebas Pilih Tempat</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right Interactive Presentation Card -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-sm animate-float">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-brand-600 to-brand-400 rounded-3xl opacity-20 filter blur-xl"></div>
+                        
+                        <div class="bg-brand-950/80 backdrop-blur-md border border-brand-900 rounded-2xl p-5 shadow-2xl relative z-10 space-y-3.5">
+                            <div class="flex items-center justify-between pb-2.5 border-b border-brand-900">
+                                <span class="font-bold text-white text-xs">Status Match Sesi Hari Ini</span>
+                                <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[9px] font-bold">Live Booking</span>
+                            </div>
+                            
+                            <div class="flex items-center gap-3 p-2.5 bg-brand-1000/60 rounded-xl border border-brand-900">
+                                <div class="w-8 h-8 bg-brand-500/20 text-brand-300 rounded-lg flex items-center justify-center text-[10px] font-black">M1</div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-bold text-white text-[11px] truncate">Kalkulus & Aljabar</h4>
+                                    <p class="text-[9px] text-slate-400">Offline &bull; Perpustakaan Pusat</p>
+                                </div>
+                                <span class="text-[9px] font-bold text-brand-400">Aktif <i class="fa-solid fa-fire text-amber-500"></i></span>
+                            </div>
+
+                            <div class="flex items-center gap-3 p-2.5 bg-brand-1000/60 rounded-xl border border-brand-900">
+                                <div class="w-8 h-8 bg-brand-400/20 text-brand-300 rounded-lg flex items-center justify-center text-[10px] font-black">A2</div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-bold text-white text-[11px] truncate">Struktur Data & Alpro</h4>
+                                    <p class="text-[9px] text-slate-400">Online &bull; Zoom Meet</p>
+                                </div>
+                                <span class="text-[9px] font-bold text-slate-400">Selesai</span>
+                            </div>
+
+                            <button onclick="openBookingModal()" class="w-full bg-brand-900 hover:bg-brand-850 text-brand-300 border border-brand-800 hover:border-brand-500 py-2 rounded-xl text-[11px] font-bold transition-all">
+                                Coba Simulasi SKS Match <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- TESTIMONIALS SECTION (Marquee Continuous Scroll) -->
+    <section id="testimoni" class="py-16 bg-brand-1000 overflow-hidden border-y border-brand-900/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
+            <span class="text-brand-400 text-xs font-bold tracking-wider uppercase bg-brand-900/50 px-3 py-1 rounded-full border border-brand-800">Ulasan Nyata Mahasiswa</span>
+            <h2 class="text-2xl font-extrabold text-white mt-3">Telah Menyelamatkan Ratusan IPK</h2>
+            <p class="text-slate-400 text-xs mt-1">Ulasan riil dari mahasiswa pejuang sistem kebut semalam (SKS) di seluruh penjuru Indonesia.</p>
+        </div>
+
+        <!-- Horizontal Marquee Container -->
+        <div class="relative w-full flex overflow-x-hidden py-2">
+            <div class="flex gap-5 animate-marquee whitespace-nowrap">
+                <!-- Card 1 -->
+                <div class="w-[280px] sm:w-[320px] bg-brand-950/50 border border-brand-900 p-5 rounded-xl flex-shrink-0 inline-block whitespace-normal">
+                    <div class="flex text-amber-400 gap-1 text-[10px] mb-2">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-300 text-[11px] italic leading-relaxed">
+                        "Malam sebelum UTS Alpro beneran blank materi Graph. Iseng nyoba Lesketika dapet Kak Rian. Diterangin via Zoom sejam langsung paham konsepnya! UTS dapet A!"
+                    </p>
+                    <div class="flex items-center gap-2.5 mt-3 pt-3 border-t border-brand-900/60">
+                        <div class="w-7 h-7 rounded-full bg-brand-800/80 flex items-center justify-center font-bold text-[9px] text-brand-300 border border-brand-700">AR</div>
+                        <div>
+                            <h4 class="font-bold text-white text-[11px]">Aris Rahman</h4>
+                            <p class="text-[8px] text-slate-400">Teknik Informatika ITB</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="w-[280px] sm:w-[320px] bg-brand-950/50 border border-brand-900 p-5 rounded-xl flex-shrink-0 inline-block whitespace-normal">
+                    <div class="flex text-amber-400 gap-1 text-[10px] mb-2">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-300 text-[11px] italic leading-relaxed">
+                        "Kalkulus 2 bener-bener jadi momok. Dibantu Kak Amara ngerjain latihan soal turunan berantai. Penjelasannya super ringkas dan gampang dimengerti dibanding di kelas."
+                    </p>
+                    <div class="flex items-center gap-2.5 mt-3 pt-3 border-t border-brand-900/60">
+                        <div class="w-7 h-7 rounded-full bg-brand-800/80 flex items-center justify-center font-bold text-[9px] text-brand-300 border border-brand-700">ND</div>
+                        <div>
+                            <h4 class="font-bold text-white text-[11px]">Nadia Dwi</h4>
+                            <p class="text-[8px] text-slate-400">Teknik Kimia UI</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="w-[280px] sm:w-[320px] bg-brand-950/50 border border-brand-900 p-5 rounded-xl flex-shrink-0 inline-block whitespace-normal">
+                    <div class="flex text-amber-400 gap-1 text-[10px] mb-2">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                    </div>
+                    <p class="text-slate-300 text-[11px] italic leading-relaxed">
+                        "Pusing banget ngolah data SPSS buat skripsi yang udah mau deadline sidang. Konsul sejam sama Pak Bambang, langsung kelar bab 4 saya. Terbaik dan ramah banget bapaknya!"
+                    </p>
+                    <div class="flex items-center gap-2.5 mt-3 pt-3 border-t border-brand-900/60">
+                        <div class="w-7 h-7 rounded-full bg-brand-800/80 flex items-center justify-center font-bold text-[9px] text-brand-300 border border-brand-700">YF</div>
+                        <div>
+                            <h4 class="font-bold text-white text-[11px]">Yusuf Farhan</h4>
+                            <p class="text-[8px] text-slate-400">Manajemen UGM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="w-[280px] sm:w-[320px] bg-brand-950/50 border border-brand-900 p-5 rounded-xl flex-shrink-0 inline-block whitespace-normal">
+                    <div class="flex text-amber-400 gap-1 text-[10px] mb-2">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-300 text-[11px] italic leading-relaxed">
+                        "Jurnal Penyesuaian Akuntansi bikin mumet seharian. Pesen sesi offline ketemu Ibu Maya di cafe deket kampus. Masalah kelar sambil ngopi santai."
+                    </p>
+                    <div class="flex items-center gap-2.5 mt-3 pt-3 border-t border-brand-900/60">
+                        <div class="w-7 h-7 rounded-full bg-brand-800/80 flex items-center justify-center font-bold text-[9px] text-brand-300 border border-brand-700">CV</div>
+                        <div>
+                            <h4 class="font-bold text-white text-[11px]">Clara Valens</h4>
+                            <p class="text-[8px] text-slate-400">Akuntansi Binus</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-5 animate-marquee whitespace-nowrap" aria-hidden="true">
+                <!-- Card 1 Dupe -->
+                <div class="w-[280px] sm:w-[320px] bg-brand-950/50 border border-brand-900 p-5 rounded-xl flex-shrink-0 inline-block whitespace-normal">
+                    <div class="flex text-amber-400 gap-1 text-[10px] mb-2">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-300 text-[11px] italic leading-relaxed">
+                        "Malam sebelum UTS Alpro beneran blank materi Graph. Iseng nyoba Lesketika dapet Kak Rian. Diterangin via Zoom sejam langsung paham konsepnya! UTS dapet A!"
+                    </p>
+                    <div class="flex items-center gap-2.5 mt-3 pt-3 border-t border-brand-900/60">
+                        <div class="w-7 h-7 rounded-full bg-brand-800/80 flex items-center justify-center font-bold text-[9px] text-brand-300 border border-brand-700">AR</div>
+                        <div>
+                            <h4 class="font-bold text-white text-[11px]">Aris Rahman</h4>
+                            <p class="text-[8px] text-slate-400">Teknik Informatika ITB</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 Dupe -->
+                <div class="w-[280px] sm:w-[320px] bg-brand-950/50 border border-brand-900 p-5 rounded-xl flex-shrink-0 inline-block whitespace-normal">
+                    <div class="flex text-amber-400 gap-1 text-[10px] mb-2">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-300 text-[11px] italic leading-relaxed">
+                        "Kalkulus 2 bener-bener jadi momok. Dibantu Kak Amara ngerjain latihan soal turunan berantai. Penjelasannya super ringkas dan gampang dimengerti dibanding di kelas."
+                    </p>
+                    <div class="flex items-center gap-2.5 mt-3 pt-3 border-t border-brand-900/60">
+                        <div class="w-7 h-7 rounded-full bg-brand-800/80 flex items-center justify-center font-bold text-[9px] text-brand-300 border border-brand-700">ND</div>
+                        <div>
+                            <h4 class="font-bold text-white text-[11px]">Nadia Dwi</h4>
+                            <p class="text-[8px] text-slate-400">Teknik Kimia UI</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW TO REGISTER & JOIN SECTION -->
+    <section id="cara-gabung" class="py-16 bg-brand-950/20 border-b border-brand-900/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
+                <span class="text-brand-400 text-xs font-bold tracking-wider uppercase bg-brand-900/50 px-3 py-1 rounded-full border border-brand-800">Langkah Kilat Sukses SKS</span>
+                <h2 class="text-2xl font-extrabold text-white">Cara Pemesanan di Lesketika</h2>
+                <p class="text-slate-400 text-xs">Hanya butuh 4 langkah mudah untuk mengamankan nilai ujian Anda malam ini.</p>
+            </div>
+
+            <!-- Steps Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+                <!-- Decorative Connector Line for desktop -->
+                <div class="hidden md:block absolute top-10 left-16 right-16 h-[2px] bg-gradient-to-r from-brand-600 via-brand-400 to-brand-800 z-0"></div>
+
+                <!-- Step 1 -->
+                <div class="bg-brand-950/80 border border-brand-900 rounded-xl p-5 text-center relative z-10 hover:border-brand-500/40 transition-all duration-300 group">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-600 to-brand-400 text-brand-1000 font-extrabold text-sm flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">1</div>
+                    <h3 class="text-white font-bold text-xs mb-1">Pilih Matkul & Sesi</h3>
+                    <p class="text-slate-400 text-[10px] leading-relaxed">Tentukan mata kuliah darurat, tanggal belajar, serta slot sesi jam (09.00 - 21.00) yang Anda inginkan.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-brand-950/80 border border-brand-900 rounded-xl p-5 text-center relative z-10 hover:border-brand-500/40 transition-all duration-300 group">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-600 to-brand-400 text-brand-1000 font-extrabold text-sm flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">2</div>
+                    <h3 class="text-white font-bold text-xs mb-1">Tentukan Tutor</h3>
+                    <p class="text-slate-400 text-[10px] leading-relaxed">Pilih dari barisan rekan mahasiswa berprestasi nasional atau dosen ahli yang tersedia secara dinamis di jam tersebut.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-brand-950/80 border border-brand-900 rounded-xl p-5 text-center relative z-10 hover:border-brand-500/40 transition-all duration-300 group">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-600 to-brand-400 text-brand-1000 font-extrabold text-sm flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">3</div>
+                    <h3 class="text-white font-bold text-xs mb-1">Selesaikan Pembayaran</h3>
+                    <p class="text-slate-400 text-[10px] leading-relaxed">Gunakan simulasi transfer bank atau saldo e-wallet favorit Anda secara instan dan tanpa ribet.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="bg-brand-950/80 border border-brand-900 rounded-xl p-5 text-center relative z-10 hover:border-brand-500/40 transition-all duration-300 group">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500 text-brand-1000 font-extrabold text-sm flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">4</div>
+                    <h3 class="text-emerald-400 font-bold text-xs mb-1">Koordinasi WhatsApp</h3>
+                    <p class="text-slate-400 text-[10px] leading-relaxed">Anda akan langsung dihubungkan ke WhatsApp tutor untuk koordinasi bahan materi atau link ruang kelas online.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TUTORS SECTION (3-at-a-time slide effect) -->
+    <section id="pengajar" class="py-16 bg-brand-1000 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+                <div class="text-left max-w-2xl space-y-2">
+                    <span class="text-brand-400 text-xs font-bold tracking-wider uppercase bg-brand-900/50 px-3 py-1 rounded-full border border-brand-800">Daftar Pengajar Lesketika</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Temukan Teman Belajar & Ahli Terbaikmu</h2>
+                    <p class="text-slate-400 text-xs">Geser secara otomatis atau gunakan kontrol manual untuk menelusuri profil tutor aktif kami yang kredibel dan berpengalaman.</p>
+                </div>
+                <!-- Manual Controls -->
+                <div class="flex items-center gap-2">
+                    <button onclick="slidePrev()" class="w-9 h-9 rounded-lg bg-brand-950 border border-brand-800 hover:border-brand-400 text-slate-300 flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-chevron-left text-xs"></i>
+                    </button>
+                    <button onclick="slideNext()" class="w-9 h-9 rounded-lg bg-brand-950 border border-brand-800 hover:border-brand-400 text-slate-300 flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Carousel Slider Outer Container -->
+            <div class="relative w-full overflow-hidden rounded-2xl">
+                <div id="carousel-track-el" class="carousel-track gap-4">
+                    <!-- Injected dynamically via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Dots Indicators -->
+            <div id="carousel-dots-container" class="flex items-center justify-center gap-2 mt-6">
+                <!-- Dots generated in JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE BOOKING MODAL -->
+    <div id="booking-modal" class="fixed inset-0 z-50 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+            <!-- Background Backdrop -->
+            <div class="fixed inset-0 bg-brand-1000/90 backdrop-blur-md transition-opacity" onclick="closeBookingModal()"></div>
+
+            <!-- Modal Content Card -->
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+            <div class="relative inline-block align-bottom bg-brand-950 border border-brand-800 rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full text-slate-100">
+                
+                <!-- Modal Header -->
+                <div class="bg-gradient-to-r from-brand-800 to-brand-600 px-5 py-4 text-slate-900 flex items-center justify-between">
+                    <div>
+                        <h3 class="text-base font-extrabold text-white" id="modal-title">Form SKS Match Dadakan</h3>
+                        <p class="text-[11px] text-brand-100 font-medium">Bantu selesaikan materi kuliah sulit Anda sesegera mungkin</p>
+                    </div>
+                    <button onclick="closeBookingModal()" class="text-brand-100 hover:text-white hover:bg-white/15 p-1.5 rounded-lg transition-all">
+                        <i class="fa-solid fa-xmark text-base"></i>
+                    </button>
+                </div>
+
+                <!-- Steps Progress Bar -->
+                <div class="bg-brand-1000 border-b border-brand-900 px-5 py-2.5 flex items-center justify-between text-[9px] font-bold text-slate-500 uppercase tracking-wider">
+                    <div id="step-dot-1" class="flex items-center gap-1 text-brand-400">
+                        <span class="w-4.5 h-4.5 rounded-full bg-brand-900 text-brand-300 flex items-center justify-center font-mono">1</span>
+                        <span>Detail & Waktu</span>
+                    </div>
+                    <div class="h-[1px] w-4 bg-brand-900 flex-1 mx-2 rounded"></div>
+                    <div id="step-dot-2" class="flex items-center gap-1">
+                        <span class="w-4.5 h-4.5 rounded-full bg-brand-1000 text-slate-500 flex items-center justify-center font-mono border border-brand-900">2</span>
+                        <span>Pilih Tutor</span>
+                    </div>
+                    <div class="h-[1px] w-4 bg-brand-900 flex-1 mx-2 rounded"></div>
+                    <div id="step-dot-3" class="flex items-center gap-1">
+                        <span class="w-4.5 h-4.5 rounded-full bg-brand-1000 text-slate-500 flex items-center justify-center font-mono border border-brand-900">3</span>
+                        <span>Konfirmasi</span>
+                    </div>
+                </div>
+
+                <!-- Modal Body steps wrapper -->
+                <div class="px-5 py-5 max-h-[60vh] overflow-y-auto bg-brand-950/40">
+
+                    <!-- STEP 1: INITIAL BOOKING PARAMETERS -->
+                    <div id="step-1" class="space-y-4">
+                        <!-- Student Name & Subject Selector -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                            <div>
+                                <label class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Nama Mahasiswa</label>
+                                <input type="text" id="student-name" placeholder="Contoh: Budi Santoso" class="w-full px-3 py-2 rounded-lg bg-brand-1000 border border-brand-850 text-white focus:outline-none focus:border-brand-500 text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Butuh Matkul Apa?</label>
+                                <select id="subject-dropdown" onchange="checkSubjectDropdown(this.value)" class="w-full px-3 py-2 rounded-lg bg-brand-1000 border border-brand-850 text-white focus:outline-none focus:border-brand-500 text-xs">
+                                    <option value="">-- Pilih Mata Kuliah --</option>
+                                    <option value="Kalkulus & Aljabar">Kalkulus & Aljabar</option>
+                                    <option value="Aljabar Linear">Aljabar Linear</option>
+                                    <option value="Pemrograman Web">Pemrograman Web</option>
+                                    <option value="Struktur Data & Alpro">Struktur Data & Alpro</option>
+                                    <option value="Statistika & Riset">Statistika & Riset</option>
+                                    <option value="Akuntansi Keuangan">Akuntansi Keuangan</option>
+                                    <option value="Fisika Dasar">Fisika Dasar</option>
+                                    <option value="Kimia Dasar">Kimia Dasar</option>
+                                    <option value="TOEFL & Bahasa Inggris">TOEFL & Bahasa Inggris</option>
+                                    <option value="Metodologi Penelitian">Metodologi Penelitian</option>
+                                    <option value="Mikroekonomi">Mikroekonomi</option>
+                                    <option value="Hukum Perdata">Hukum Perdata</option>
+                                    <option value="LAINNYA">Mata Kuliah Lainnya...</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Custom Subject Input -->
+                        <div id="custom-subject-container" class="hidden">
+                            <label class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Sebutkan Mata Kuliah Custom</label>
+                            <input type="text" id="custom-subject" placeholder="Masukkan nama mata kuliah khusus Anda..." class="w-full px-3 py-2 rounded-lg bg-brand-1000 border border-brand-850 text-white focus:outline-none focus:border-brand-500 text-xs">
+                        </div>
+
+                        <!-- Online vs Offline Choice -->
+                        <div>
+                            <label class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Metode Pembelajaran</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <button type="button" id="mode-online" onclick="setLearningMode('ONLINE')" class="flex items-center gap-3 p-2.5 rounded-lg border border-brand-800 bg-brand-1000/60 hover:border-brand-500 text-left transition-all group">
+                                    <div class="w-7 h-7 rounded-lg bg-brand-500/10 text-brand-400 group-hover:bg-brand-500 group-hover:text-brand-1000 flex items-center justify-center transition-all text-xs">
+                                        <i class="fa-solid fa-video"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-xs text-white leading-none">Online</h4>
+                                        <span class="text-[8px] text-slate-400">Zoom / GMeet Sesi</span>
+                                    </div>
+                                </button>
+
+                                <button type="button" id="mode-offline" onclick="setLearningMode('OFFLINE')" class="flex items-center gap-3 p-2.5 rounded-lg border border-brand-800 bg-brand-1000/60 hover:border-brand-500 text-left transition-all group">
+                                    <div class="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-brand-1000 flex items-center justify-center transition-all text-xs">
+                                        <i class="fa-solid fa-mug-hot"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-xs text-white leading-none">Offline</h4>
+                                        <span class="text-[8px] text-slate-400">Cafe / Perpustakaan</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Mini Calendar Component -->
+                        <div>
+                            <label class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Pilih Tanggal Belajar</label>
+                            <div class="border border-brand-900 rounded-xl p-3 bg-brand-1000/50">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span id="calendar-month-year" class="text-xs font-bold text-white">Juni 2026</span>
+                                    <div class="flex gap-1">
+                                        <button type="button" onclick="prevMonth()" class="p-1 rounded hover:bg-brand-900 text-slate-400 hover:text-white"><i class="fa-solid fa-chevron-left text-[9px]"></i></button>
+                                        <button type="button" onclick="nextMonth()" class="p-1 rounded hover:bg-brand-900 text-slate-400 hover:text-white"><i class="fa-solid fa-chevron-right text-[9px]"></i></button>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-7 gap-1 text-center text-[9px] font-bold text-slate-500 mb-1">
+                                    <div>Mg</div><div>Sn</div><div>Sl</div><div>Rb</div><div>Km</div><div>Jm</div><div>Sb</div>
+                                </div>
+                                <div id="calendar-days-grid" class="grid grid-cols-7 gap-1 text-center">
+                                    <!-- Embedded Dynamically -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 1-Hour Time slot selectors with refined glow & spring-back active animation -->
+                        <div>
+                            <label class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Pilih Sesi Jam (Durasi 1 Jam)</label>
+                            <div class="grid grid-cols-3 gap-2 max-h-[120px] overflow-y-auto pr-1">
+                                <button type="button" onclick="selectTimeSlot('09:00 - 10:00')" class="time-slot-btn px-2 py-1.5 rounded-lg border border-brand-900 text-[10px] font-semibold text-center bg-brand-1000/40 text-slate-300">09.00 - 10.00</button>
+                                <button type="button" onclick="selectTimeSlot('10:00 - 11:00')" class="time-slot-btn px-2 py-1.5 rounded-lg border border-brand-900 text-[10px] font-semibold text-center bg-brand-1000/40 text-slate-300">10.00 - 11.00</button>
+                                <button type="button" onclick="selectTimeSlot('11:00 - 12:00')" class="time-slot-btn px-2 py-1.5 rounded-lg border border-brand-900 text-[10px] font-semibold text-center bg-brand-1000/40 text-slate-300">11.00 - 12.00</button>
+                                <button type="button" onclick="selectTimeSlot('12:00 - 13:00')" class="time-slot-btn px-2 py-1.5 rounded-lg border border-brand-900 text-[10px] font-semibold text-center bg-brand-1000/40 text-slate-300">12.00 - 13.00</button>
+                                <button type="button" onclick="selectTimeSlot('13:00 - 14:00')" class="time-slot-btn px-2 py-1.5 rounded-lg border border-brand-900 text-[10px] font-semibold text-center bg-brand-1000/40 text-slate-300">13.00 - 14.00</button>
+                                <button type="button" onclick="selectTimeSlot('14:00 - 15:00')" class="time-slot-btn px-2 py-1.5 rounded-lg border border-brand-900 text-[10px] font-semibold text-center bg-brand-1000/40 text-slate-300">14.00 - 15.00</button>
+                                <button type="button" onclick="selectTimeSlot('15:00 - 16:00')" class="time-slot-btn px-2 py-1.5 rounded-lg border border-brand-900 text-[10px] font-semibold text-center bg-brand-1000/40 text-slate-300">15.00 - 16.00</button>
+                                <button type="button" onclick="selectTimeSlot('16:00 - 17:00')" class="time-slot-btn px-2 py-1.5 rounded-lg border border-brand-900 text-[10px] font-semibold text-center bg-brand-1000/40 text-slate-300">16.00 - 17.00</button>
+                                <button type="button" onclick="selectTimeSlot('17:00 - 18:00')" class="time-slot-btn px-2 py-1.5 rounded-lg border border-brand-900 text-[10px] font-semibold text-center bg-brand-1000/40 text-slate-300">17.00 - 18.00</button>
+                                <button type="button" onclick="selectTimeSlot('18:00 - 19:00')" class="time-slot-btn px-2 py-1.5 rounded-lg border border-brand-900 text-[10px] font-semibold text-center bg-brand-1000/40 text-slate-300">18.00 - 19.00</button>
+                                <button type="button" onclick="selectTimeSlot('19:00 - 20:00')" class="time-slot-btn px-2 py-1.5 rounded-lg border border-brand-900 text-[10px] font-semibold text-center bg-brand-1000/40 text-slate-300">19.00 - 20.00</button>
+                                <button type="button" onclick="selectTimeSlot('20:00 - 21:00')" class="time-slot-btn px-2 py-1.5 rounded-lg border border-brand-900 text-[10px] font-semibold text-center bg-brand-1000/40 text-slate-300">20.00 - 21.00</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: LIST OF AVAILABLE TUTORS -->
+                    <div id="step-2" class="hidden space-y-3">
+                        <div class="p-3 bg-brand-900/30 border border-brand-800 rounded-lg text-[10px] text-slate-300 flex items-start gap-2">
+                            <i class="fa-solid fa-circle-info text-brand-400 mt-0.5"></i>
+                            <p>Tutor berikut dicocokkan otomatis berdasarkan ketersediaan hari dan sesi jam yang Anda tentukan sebelumnya.</p>
+                        </div>
+
+                        <label class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">Silakan Pilih Mentor Yang Tersedia</label>
+                        <div id="dynamic-tutors-list" class="space-y-2.5">
+                            <!-- Injected dynamically based on date & time selection -->
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: MOCK PAYMENT & CHECKOUT INVOICE -->
+                    <div id="step-3" class="hidden space-y-4">
+                        <div class="bg-brand-1000/80 border border-brand-900 rounded-xl p-4 text-xs space-y-2.5">
+                            <h4 class="font-extrabold text-white flex items-center gap-2 border-b border-brand-900 pb-2">
+                                <i class="fa-solid fa-receipt text-brand-400"></i> Rincian Invoice Lesketika
+                            </h4>
+                            <div class="grid grid-cols-2 gap-y-2 text-slate-300 pt-0.5">
+                                <span>Nama Mahasiswa:</span>
+                                <span id="summary-name" class="font-bold text-white text-right">-</span>
+
+                                <span>Mata Kuliah Bimbingan:</span>
+                                <span id="summary-subject" class="font-bold text-brand-300 text-right">-</span>
+
+                                <span>Format Kelas:</span>
+                                <span id="summary-mode" class="font-bold text-white text-right">-</span>
+                                
+                                <span>Waktu Sesi:</span>
+                                <span id="summary-datetime" class="font-bold text-white text-right">-</span>
+                                
+                                <span>Tutor Pendamping:</span>
+                                <span id="summary-tutor" class="font-bold text-brand-400 text-right">-</span>
+
+                                <span>Tingkatan Tutor:</span>
+                                <span id="summary-class" class="font-medium text-slate-400 text-right">-</span>
+                                
+                                <span class="pt-2 font-bold text-white border-t border-brand-900">Total Biaya Sesi:</span>
+                                <span id="summary-price" class="font-black text-emerald-400 text-right text-xs pt-2 border-t border-brand-900">Rp 0</span>
+                            </div>
+                        </div>
+
+                        <!-- Payment Methods Simulator -->
+                        <div>
+                            <label class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-2">Pilih Metode Pembayaran</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button type="button" onclick="selectPayment('GoPay')" class="payment-method-btn flex items-center justify-between p-2.5 rounded-lg border border-brand-850 bg-brand-1000/40 text-left transition-all">
+                                    <span class="text-xs font-bold text-sky-300">GoPay</span>
+                                    <i class="fa-solid fa-wallet text-slate-500 text-xs"></i>
+                                </button>
+                                <button type="button" onclick="selectPayment('OVO')" class="payment-method-btn flex items-center justify-between p-2.5 rounded-lg border border-brand-850 bg-brand-1000/40 text-left transition-all">
+                                    <span class="text-xs font-bold text-cyan-300">OVO</span>
+                                    <i class="fa-solid fa-credit-card text-slate-500 text-xs"></i>
+                                </button>
+                                <button type="button" onclick="selectPayment('Transfer Mandiri')" class="payment-method-btn flex items-center justify-between p-2.5 rounded-lg border border-brand-850 bg-brand-1000/40 text-left transition-all">
+                                    <span class="text-xs font-bold text-amber-500">M-Mandiri</span>
+                                    <i class="fa-solid fa-building-columns text-slate-500 text-xs"></i>
+                                </button>
+                                <button type="button" onclick="selectPayment('Transfer BCA')" class="payment-method-btn flex items-center justify-between p-2.5 rounded-lg border border-brand-850 bg-brand-1000/40 text-left transition-all">
+                                    <span class="text-xs font-bold text-blue-400">M-BCA</span>
+                                    <i class="fa-solid fa-qrcode text-slate-500 text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: SUCCESS REDIRECT AT WA -->
+                    <div id="step-4" class="hidden text-center py-4 space-y-4">
+                        <div class="w-14 h-14 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full flex items-center justify-center text-2xl mx-auto shadow-xl shadow-emerald-500/5">
+                            <i class="fa-solid fa-circle-check animate-pulse"></i>
+                        </div>
+                        <div class="space-y-1">
+                            <h3 class="text-lg font-extrabold text-white">Pembayaran Sukses!</h3>
+                            <p class="text-[11px] text-slate-300 max-w-xs mx-auto">Sesi bimbingan belajar kilat Anda telah otomatis terjadwal pada server Lesketika.</p>
+                        </div>
+                        
+                        <div class="p-2.5 bg-brand-1000 border border-brand-900 rounded-lg text-left max-w-sm mx-auto space-y-1 text-[10px]">
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Kode Booking:</span>
+                                <span class="font-mono font-bold text-white">LKT-FAST-2026</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Status Invoice:</span>
+                                <span class="text-emerald-400 font-bold uppercase">Lunas</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2 pt-1">
+                            <p class="text-[9px] text-slate-400 italic">Klik tombol hijau di bawah untuk menghubungi WhatsApp tutor agar memulai koordinasi materi/tempat.</p>
+                            <a id="whatsapp-redirect-btn" href="#" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-3 rounded-lg text-xs font-bold shadow-lg transition-all w-full justify-center">
+                                <i class="fa-brands fa-whatsapp text-base"></i> Hubungi WhatsApp Pengajar <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Modal Navigation Controls Footer -->
+                <div id="modal-footer" class="bg-brand-1000 px-5 py-3 border-t border-brand-900 flex items-center justify-between">
+                    <button id="prev-btn" onclick="prevStep()" class="hidden text-xs font-bold text-slate-400 hover:text-white hover:bg-brand-900 px-3 py-2 rounded-lg transition-all">
+                        Kembali
+                    </button>
+                    <div id="prev-spacer" class="flex-1"></div>
+                    <button id="next-btn" onclick="nextStep()" class="bg-gradient-to-r from-brand-600 to-brand-400 hover:from-brand-500 hover:to-brand-300 text-brand-1000 px-4 py-2 rounded-lg text-xs font-extrabold shadow-md transition-all flex items-center gap-1.5">
+                        <span>Lanjut Pilih Tutor</span> <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRE-FOOTER REGISTRATION & CTA SECTION -->
+    <section class="py-20 bg-gradient-to-b from-brand-1000 to-brand-950 relative overflow-hidden border-t border-brand-900/60">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="bg-gradient-to-tr from-brand-950/80 to-brand-900/40 border border-brand-800 rounded-3xl p-8 md:p-12 shadow-2xl text-center space-y-8 relative">
+                <!-- Decorative background elements inside CTA card -->
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-brand-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-brand-400/5 rounded-full blur-2xl pointer-events-none"></div>
+
+                <div class="space-y-4 max-w-2xl mx-auto">
+                    <span class="px-3 py-1 rounded-full bg-brand-500/15 text-brand-400 text-xs font-bold tracking-wider uppercase border border-brand-500/20">Ayo Gabung Sekarang</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
+                        Siap Jadi Penyelamat Nilaimu, atau Tertantang Berbagi Ilmu?
+                    </h2>
+                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                        Apakah kamu mahasiswa yang butuh bimbingan darurat sebelum ujian besok pagi, atau justru mahasiswa berprestasi & akademisi yang ingin menambah portofolio serta penghasilan? Kami menyediakan tempat untuk kedua belah pihak!
+                    </p>
+                </div>
+
+                <!-- Registration Grid Options -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto text-left pt-4">
+                    <!-- Option 1: Student -->
+                    <div class="bg-brand-1000/60 border border-brand-900 hover:border-brand-500/50 p-6 rounded-2xl transition-all duration-300 group">
+                        <div class="w-10 h-10 rounded-xl bg-brand-500/10 text-brand-300 flex items-center justify-center text-lg mb-4 group-hover:bg-brand-500 group-hover:text-brand-1000 transition-all">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+                        <h3 class="text-white font-bold text-base mb-1.5">Daftar Sebagai Siswa</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed mb-5">Dapatkan akses instan ke seluruh tutor hebat, rekam jejak bimbingan, rangkuman SKS, dan diskon kupon bimbingan dadakan mingguan.</p>
+                        <button onclick="triggerDirectRegistration('Siswa')" class="w-full bg-brand-900 hover:bg-brand-800 text-brand-300 border border-brand-800 hover:border-brand-400 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5">
+                            Gabung Siswa <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </button>
+                    </div>
+
+                    <!-- Option 2: Tutor -->
+                    <div class="bg-brand-1000/60 border border-brand-900 hover:border-brand-400/50 p-6 rounded-2xl transition-all duration-300 group">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-300 flex items-center justify-center text-lg mb-4 group-hover:bg-emerald-500 group-hover:text-brand-1000 transition-all">
+                            <i class="fa-solid fa-chalkboard-user"></i>
+                        </div>
+                        <h3 class="text-white font-bold text-base mb-1.5">Daftar Sebagai Mentor</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed mb-5">Tentukan tarif belajarmu sendiri, kelola ketersediaan jam mengajar secara mandiri, dan jangkau ratusan mahasiswa pejuang nilai IPK tinggi.</p>
+                        <button onclick="triggerDirectRegistration('Mentor')" class="w-full bg-emerald-950/40 hover:bg-emerald-900/60 text-emerald-300 border border-emerald-900/60 hover:border-emerald-400 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5">
+                            Gabung Jadi Tutor <i class="fa-solid fa-circle-plus text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER (Professional Legal Docs & Corporate Identity) -->
+    <footer class="bg-brand-1000 text-slate-400 pt-16 pb-8 border-t border-brand-900/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-10 border-b border-brand-900/40">
+                
+                <!-- Column 1: Brand & Bio -->
+                <div class="md:col-span-4 space-y-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 bg-brand-500 rounded-lg flex items-center justify-center shadow-md">
+                            <i class="fa-solid fa-graduation-cap text-brand-1000 text-xs"></i>
+                        </div>
+                        <span class="text-base font-extrabold text-white">Lesketika</span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Pioneering peer bimbingan dadakan tercepat di Indonesia. Menghubungkan mahasiswa pejuang SKS dengan rekan berprestasi nasional (*Peer Tutors*) serta Dosen Ahli dalam waktu kurang dari 1 jam.
+                    </p>
+                    <div class="flex gap-2.5">
+                        <a href="#" class="w-7 h-7 rounded-lg bg-brand-950 border border-brand-900 hover:border-brand-500 flex items-center justify-center text-slate-400 hover:text-white transition-all"><i class="fa-brands fa-instagram text-xs"></i></a>
+                        <a href="#" class="w-7 h-7 rounded-lg bg-brand-950 border border-brand-900 hover:border-brand-500 flex items-center justify-center text-slate-400 hover:text-white transition-all"><i class="fa-brands fa-discord text-xs"></i></a>
+                        <a href="#" class="w-7 h-7 rounded-lg bg-brand-950 border border-brand-900 hover:border-brand-500 flex items-center justify-center text-slate-400 hover:text-white transition-all"><i class="fa-brands fa-linkedin text-xs"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 2: Legal Documents (Core Request) -->
+                <div class="md:col-span-3 space-y-3.5">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-white">Legal Documents</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" class="hover:text-white transition-colors">Syarat & Ketentuan Layanan</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Kebijakan Privasi Pengguna</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Aturan Penggunaan Konten</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Kebijakan Pengembalian Dana</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Disclaimer & Hukum</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Layanan Matkul -->
+                <div class="md:col-span-3 space-y-3.5">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-white">Mata Kuliah Utama</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#pengajar" class="hover:text-white transition-colors">Kalkulus & Aljabar Linear</a></li>
+                        <li><a href="#pengajar" class="hover:text-white transition-colors">Struktur Data & Alpro</a></li>
+                        <li><a href="#pengajar" class="hover:text-white transition-colors">Mikroekonomi & Akuntansi</a></li>
+                        <li><a href="#pengajar" class="hover:text-white transition-colors">Persiapan TOEFL / Inggris</a></li>
+                        <li><a href="#pengajar" class="hover:text-white transition-colors">Metodologi & Olah Statistika</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Kontak & Credentials -->
+                <div class="md:col-span-2 space-y-3.5">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-white">Hubungi Kami</h4>
+                    <div class="space-y-2 text-xs">
+                        <p class="text-slate-400">Email: <a href="mailto:support@lesketika.com" class="hover:text-white text-brand-400">support@lesketika.com</a></p>
+                        <p class="text-slate-400 leading-relaxed">Gedung Rektorat Inkubator Bisnis Lt. 3, Jakarta Selatan</p>
+                        <span class="inline-block px-2 py-0.5 rounded bg-brand-900 text-[9px] font-bold text-brand-300 border border-brand-800">Kemenkumham RI Reg</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Copyright bar -->
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-[10px] text-slate-500 gap-2">
+                <p>&copy; 2026 PT. Lesketika Edukasi Nusantara. Seluruh Hak Cipta Dilindungi.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-slate-300">Peta Situs</a>
+                    <a href="#" class="hover:text-slate-300">Karir Mentor</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT SYSTEM ENGINE -->
+    <script>
+        // Comprehensive database of 8 Tutors with Expanded Professional Details & Mastered Subjects
+        const tutorsData = [
+            {
+                id: 1,
+                name: "Kak Rian Fauzi",
+                role: "Mahasiswa",
+                subject: "Pemrograman Web",
+                mastered: ["React.js", "Laravel", "Tailwind CSS"],
+                grad: "S1 Sistem Informasi UI &bull; IPK 3.92",
+                price: 60000,
+                days: [1, 3, 5], // Senin, Rabu, Jumat
+                hours: ["16:00 - 17:00", "17:00 - 18:00", "18:00 - 19:00", "19:00 - 20:00", "20:00 - 21:00"],
+                phone: "6281234567890",
+                desc: "Asisten Dosen Pemrograman UI. Senang mengupas tugas-tugas coding dadakan dengan logis.",
+                rating: "4.9",
+                avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=200&h=200"
+            },
+            {
+                id: 2,
+                name: "Kak Amara Widya",
+                role: "Mahasiswa",
+                subject: "Kalkulus & Aljabar",
+                mastered: ["Kalkulus Diferensial", "Aljabar Linear", "Integral"],
+                grad: "S1 Teknik Elektro ITB &bull; IPK 3.85",
+                price: 60000,
+                days: [2, 4, 6], // Selasa, Kamis, Sabtu
+                hours: ["09:00 - 10:00", "10:00 - 11:00", "11:00 - 12:00", "13:00 - 14:00", "14:00 - 15:00"],
+                phone: "6289876543210",
+                desc: "Medali Perunggu Olimpiade Fisika. Ahli menyederhanakan rumus turunan berantai berbelit-belit.",
+                rating: "4.8",
+                avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200&h=200"
+            },
+            {
+                id: 3,
+                name: "Kak Farhan Ramadhan",
+                role: "Mahasiswa",
+                subject: "Fisika Dasar",
+                mastered: ["Termodinamika", "Mekanika", "Gelombang"],
+                grad: "S1 Teknik Fisika UGM &bull; IPK 3.79",
+                price: 60000,
+                days: [1, 2, 3], // Senin, Selasa, Rabu
+                hours: ["13:00 - 14:00", "14:00 - 15:00", "15:00 - 16:00", "18:00 - 19:00", "19:00 - 20:00"],
+                phone: "6285511223344",
+                desc: "Tutor sebaya andalan himpunan mahasiswa. Jago analisis diagram benda bebas secara praktis.",
+                rating: "4.7",
+                avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200&h=200"
+            },
+            {
+                id: 4,
+                name: "Kak Sarah Amanda",
+                role: "Mahasiswa",
+                subject: "TOEFL & Bahasa Inggris",
+                mastered: ["Structure", "Listening", "Speaking Practice"],
+                grad: "S1 Sastra Inggris Unpad &bull; IPK 3.90",
+                price: 60000,
+                days: [4, 5, 6], // Kamis, Jumat, Sabtu
+                hours: ["09:00 - 10:00", "10:00 - 11:00", "15:00 - 16:00", "16:00 - 17:00", "17:00 - 18:00"],
+                phone: "6287766554433",
+                desc: "Skor TOEFL ITP 640. Tutor ramah & asyik untuk melatih rasa percaya diri berbahasa inggris.",
+                rating: "4.9",
+                avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200&h=200"
+            },
+            {
+                id: 5,
+                name: "Pak Bambang Setiono",
+                role: "Dosen Pakar",
+                subject: "Statistika & Riset",
+                mastered: ["SPSS", "SmartPLS", "Metode Kuantitatif"],
+                grad: "S2 Statistika Terapan &bull; Dosen Unpad",
+                price: 150000,
+                days: [1, 3, 5, 6], // Senin, Rabu, Jumat, Sabtu
+                hours: ["10:00 - 11:00", "11:00 - 12:00", "13:00 - 14:00", "14:00 - 15:00", "19:00 - 20:00"],
+                phone: "6281122334455",
+                desc: "Dosen senior berpengalaman membimbing ratusan mahasiswa tingkat akhir menyelesaikan olah data skripsi.",
+                rating: "5.0",
+                avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200&h=200"
+            },
+            {
+                id: 6,
+                name: "Ibu Maya Lestari",
+                role: "Dosen Pakar",
+                subject: "Akuntansi Keuangan",
+                mastered: ["Jurnal Penyesuaian", "Audit Laporan", "Perpajakan"],
+                grad: "S2 Akuntansi UI &bull; Eks Auditor KAP Big 4",
+                price: 150000,
+                days: [2, 4, 5], // Selasa, Kamis, Jumat
+                hours: ["11:00 - 12:00", "12:00 - 13:00", "13:00 - 14:00", "14:00 - 15:00", "15:00 - 16:00"],
+                phone: "6282233445566",
+                desc: "Praktisi akuntansi handal. Ahli dalam mereduksi kepusingan neraca saldo mahasiswa akuntansi.",
+                rating: "4.9",
+                avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200&h=200"
+            },
+            {
+                id: 7,
+                name: "Pak Handoko Susilo",
+                role: "Dosen Pakar",
+                subject: "Struktur Data & Alpro",
+                mastered: ["C++", "Java & Python", "Analisis Kompleksitas"],
+                grad: "S2 Ilmu Komputer UI &bull; Dosen Swasta",
+                price: 150000,
+                days: [1, 2, 4], // Senin, Selasa, Kamis
+                hours: ["14:00 - 15:00", "15:00 - 16:00", "18:00 - 19:00", "19:00 - 20:00", "20:00 - 21:00"],
+                phone: "6283344556677",
+                desc: "Dosen pengampu pemrograman dasar. Jago mendemistifikasi pointer, memory leak, dan pohon biner.",
+                rating: "5.0",
+                avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200&h=200"
+            },
+            {
+                id: 8,
+                name: "Ibu Indah Pertiwi",
+                role: "Dosen Pakar",
+                subject: "Metodologi Penelitian",
+                mastered: ["Kualitatif", "Etnografi", "Analisis Wacana"],
+                grad: "S2 Ilmu Komunikasi &bull; Peneliti Akademik",
+                price: 150000,
+                days: [3, 4, 6], // Rabu, Kamis, Sabtu
+                hours: ["09:00 - 10:00", "10:00 - 11:00", "13:00 - 14:00", "16:00 - 17:00", "17:00 - 18:00"],
+                phone: "6284455667788",
+                desc: "Pakar penulisan proposal hibah dan publikasi ilmiah. Siap mereview rancangan bab metodologimu.",
+                rating: "4.8",
+                avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200&h=200"
+            }
+        ];
+
+        let currentStep = 1;
+        let selectedDate = null;
+        let selectedTime = null;
+        let selectedTutorId = null;
+        let selectedMode = null; // ONLINE or OFFLINE
+        let selectedSubject = null;
+        let selectedPaymentMethod = null;
+
+        // Calendar variables
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
+        // Carousel Slider State Variables
+        let activeSlideIndex = 0;
+        let autoSlideInterval = null;
+
+        window.onload = function() {
+            renderTutorCarousel();
+            renderCalendar();
+            startAutoSlide();
+        };
+
+        // Build Carousel
+        function renderTutorCarousel() {
+            const track = document.getElementById('carousel-track-el');
+            track.innerHTML = '';
+
+            tutorsData.forEach((t, i) => {
+                const badgeColor = t.role === "Mahasiswa" ? "bg-brand-500/10 text-brand-400 border-brand-500/20" : "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+                
+                // Mastered badges layout
+                const masteredTags = t.mastered.map(item => 
+                    `<span class="px-1.5 py-0.5 rounded bg-brand-950 border border-brand-900 text-slate-300 text-[8px] font-semibold">${item}</span>`
+                ).join(' ');
+
+                // Build slide card (Responsive: 100% width on mobile, 50% on tablet, 33.33% on desktop minus gap)
+                const card = `
+                    <div class="carousel-card w-full md:w-[calc(50%-8px)] lg:w-[calc(33.33%-11px)] flex-shrink-0 bg-brand-950/40 hover:bg-brand-950/80 border border-brand-900 hover:border-brand-400 rounded-2xl p-5 transition-all duration-300 flex flex-col justify-between group select-none">
+                        <div class="space-y-4">
+                            <!-- Card Profile Header -->
+                            <div class="flex items-start gap-3.5">
+                                <div class="relative flex-shrink-0">
+                                    <img src="${t.avatar}" alt="${t.name}" onerror="this.onerror=null; this.src='https://placehold.co/100x100/0c4a6e/ffffff?text=${t.name.split(' ')[1] || 'TR'}';" class="w-12 h-12 rounded-xl object-cover border border-brand-800 shadow-md">
+                                    <span class="absolute -bottom-1 -right-1 w-5.5 h-5.5 rounded-full bg-slate-900 border border-brand-800 flex items-center justify-center text-[8px] text-amber-400 font-black">
+                                        ★
+                                    </span>
+                                </div>
+                                <div class="min-w-0">
+                                    <h3 class="text-sm font-extrabold text-white group-hover:text-brand-300 transition-colors truncate">${t.name}</h3>
+                                    <span class="inline-block mt-0.5 px-1.5 py-0.5 rounded border ${badgeColor} text-[8px] font-extrabold uppercase tracking-widest">${t.role}</span>
+                                </div>
+                            </div>
+
+                            <!-- Academic / University Credentials -->
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-1.5">
+                                    <i class="fa-solid fa-graduation-cap text-brand-400 text-[10px]"></i>
+                                    <p class="text-[10px] text-slate-200 font-semibold leading-tight truncate">${t.grad}</p>
+                                </div>
+                                <p class="text-[10px] text-slate-400 leading-relaxed italic line-clamp-2">${t.desc}</p>
+                            </div>
+
+                            <!-- Mastered Subjects Tag Container -->
+                            <div class="space-y-1.5 pt-1 border-t border-brand-900/40">
+                                <span class="block text-[8px] font-bold text-brand-400 uppercase tracking-wider">Keahlian Spesifik</span>
+                                <div class="flex flex-wrap gap-1.5">
+                                    ${masteredTags}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Pricing & Book Action Footer -->
+                        <div class="pt-4 mt-4 border-t border-brand-900/60 flex items-center justify-between text-xs">
+                            <div>
+                                <span class="block text-[8px] text-slate-500 uppercase font-bold">Investasi Belajar</span>
+                                <span class="text-sm font-black text-emerald-400">Rp ${t.price.toLocaleString('id-ID')}<span class="text-[9px] font-normal text-slate-400">/jam</span></span>
+                            </div>
+                            <button onclick="openBookingModalAndSelect('${t.subject}')" class="bg-gradient-to-tr from-brand-600 to-brand-400 group-hover:from-brand-500 group-hover:to-brand-300 text-brand-1000 px-3.5 py-1.5 rounded-xl text-[10px] font-extrabold transition-all transform hover:scale-105 active:scale-95 shadow-md flex items-center gap-1">
+                                Booking <i class="fa-solid fa-chevron-right text-[8px]"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                track.innerHTML += card;
+            });
+
+            renderCarouselDots();
+        }
+
+        // Render Dots based on Carousel Cards count minus views
+        function renderCarouselDots() {
+            const container = document.getElementById('carousel-dots-container');
+            container.innerHTML = '';
+            
+            const totalSlides = tutorsData.length;
+            // Desktop visible cards = 3, tablet = 2, mobile = 1
+            let visibleCardsCount = 3;
+            if (window.innerWidth < 768) visibleCardsCount = 1;
+            else if (window.innerWidth < 1024) visibleCardsCount = 2;
+
+            const totalDots = Math.max(1, totalSlides - visibleCardsCount + 1);
+
+            for (let i = 0; i < totalDots; i++) {
+                const dot = document.createElement('button');
+                dot.className = `w-2 h-2 rounded-full transition-all duration-300 ${activeSlideIndex === i ? 'bg-brand-400 w-5' : 'bg-brand-900 hover:bg-brand-800'}`;
+                dot.onclick = () => {
+                    goToSlide(i);
+                    stopAutoSlide();
+                    startAutoSlide();
+                };
+                container.appendChild(dot);
+            }
+        }
+
+        function slideNext() {
+            const totalSlides = tutorsData.length;
+            let visibleCardsCount = 3;
+            if (window.innerWidth < 768) visibleCardsCount = 1;
+            else if (window.innerWidth < 1024) visibleCardsCount = 2;
+
+            const maxIndex = Math.max(0, totalSlides - visibleCardsCount);
+            if (activeSlideIndex < maxIndex) {
+                goToSlide(activeSlideIndex + 1);
+            } else {
+                goToSlide(0); // Loop back
+            }
+        }
+
+        function slidePrev() {
+            const totalSlides = tutorsData.length;
+            let visibleCardsCount = 3;
+            if (window.innerWidth < 768) visibleCardsCount = 1;
+            else if (window.innerWidth < 1024) visibleCardsCount = 2;
+
+            const maxIndex = Math.max(0, totalSlides - visibleCardsCount);
+            if (activeSlideIndex > 0) {
+                goToSlide(activeSlideIndex - 1);
+            } else {
+                goToSlide(maxIndex); // Loop to end
+            }
+        }
+
+        function goToSlide(index) {
+            activeSlideIndex = index;
+            const track = document.getElementById('carousel-track-el');
+            
+            // Calculate percentage jump based on responsive width of single cards
+            let cardWidthPercentage = 33.33; // default desktop
+            if (window.innerWidth < 768) cardWidthPercentage = 100;
+            else if (window.innerWidth < 1024) cardWidthPercentage = 50;
+
+            // Gap compensation in desktop / tablet
+            const gap = 16; // 16px (gap-4)
+            const translationValue = index * (cardWidthPercentage);
+            
+            if (window.innerWidth < 768) {
+                track.style.transform = `translateX(-${index * 100}%)`;
+            } else {
+                // Approximate translate with gap included
+                track.style.transform = `translateX(calc(-${translationValue}% - ${index * (gap / 2)}px))`;
+            }
+
+            renderCarouselDots();
+        }
+
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(() => {
+                slideNext();
+            }, 4000);
+        }
+
+        function stopAutoSlide() {
+            if (autoSlideInterval) clearInterval(autoSlideInterval);
+        }
+
+        // Handle resize events to recalculate visible dots/carousel widths
+        window.addEventListener('resize', () => {
+            renderCarouselDots();
+            goToSlide(0);
+        });
+
+
+        // Open Booking and pre-fill subject dropdown
+        function openBookingModalAndSelect(subjectName) {
+            openBookingModal();
+            const dropdown = document.getElementById('subject-dropdown');
+            dropdown.value = subjectName;
+            selectedSubject = subjectName;
+            checkSubjectDropdown(subjectName);
+        }
+
+        function checkSubjectDropdown(val) {
+            const container = document.getElementById('custom-subject-container');
+            if (val === "LAINNYA") {
+                container.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+                selectedSubject = val;
+            }
+        }
+
+        function openBookingModal() {
+            document.getElementById('booking-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            resetBookingForm();
+            renderCalendar();
+        }
+
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function resetBookingForm() {
+            currentStep = 1;
+            selectedDate = null;
+            selectedTime = null;
+            selectedTutorId = null;
+            selectedMode = null;
+            selectedSubject = null;
+            selectedPaymentMethod = null;
+
+            document.getElementById('student-name').value = '';
+            document.getElementById('subject-dropdown').value = '';
+            document.getElementById('custom-subject').value = '';
+            document.getElementById('custom-subject-container').classList.add('hidden');
+
+            document.getElementById('mode-online').className = "flex items-center gap-3 p-2.5 rounded-lg border border-brand-800 bg-brand-1000/60 hover:border-brand-500 text-left transition-all group";
+            document.getElementById('mode-offline').className = "flex items-center gap-3 p-2.5 rounded-lg border border-brand-800 bg-brand-1000/60 hover:border-brand-500 text-left transition-all group";
+
+            document.querySelectorAll('.time-slot-btn').forEach(btn => {
+                btn.className = "time-slot-btn px-2 py-1.5 rounded-lg border border-brand-900 text-[10px] font-semibold text-center bg-brand-1000/40 text-slate-300";
+            });
+
+            const footer = document.getElementById('modal-footer');
+            footer.classList.remove('hidden');
+
+            showStep(1);
+        }
+
+        function setLearningMode(mode) {
+            selectedMode = mode;
+            const onlineBtn = document.getElementById('mode-online');
+            const offlineBtn = document.getElementById('mode-offline');
+
+            if (mode === 'ONLINE') {
+                onlineBtn.className = "flex items-center gap-3 p-2.5 rounded-lg border-2 border-brand-400 bg-brand-900/40 text-left transition-all group shadow-[0_0_10px_rgba(56,189,248,0.15)]";
+                offlineBtn.className = "flex items-center gap-3 p-2.5 rounded-lg border border-brand-800 bg-brand-1000/60 hover:border-brand-500 text-left transition-all group opacity-50";
+            } else {
+                offlineBtn.className = "flex items-center gap-3 p-2.5 rounded-lg border-2 border-emerald-400 bg-brand-900/40 text-left transition-all group shadow-[0_0_10px_rgba(16,185,129,0.15)]";
+                onlineBtn.className = "flex items-center gap-3 p-2.5 rounded-lg border border-brand-800 bg-brand-1000/60 hover:border-brand-500 text-left transition-all group opacity-50";
+            }
+        }
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendar-days-grid');
+            const label = document.getElementById('calendar-month-year');
+
+            grid.innerHTML = '';
+            label.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            for (let i = 0; i < firstDay; i++) {
+                const empty = document.createElement('div');
+                grid.appendChild(empty);
+            }
+
+            const today = new Date();
+            for (let d = 1; d <= totalDays; d++) {
+                const btn = document.createElement('button');
+                btn.type = "button";
+                btn.textContent = d;
+                btn.className = "p-1 text-[10px] font-bold rounded hover:bg-brand-900 transition-all focus:outline-none ";
+
+                const thisDate = new Date(currentYear, currentMonth, d);
+                if (thisDate < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+                    btn.className += " text-slate-700 pointer-events-none";
+                } else {
+                    btn.className += " text-slate-200";
+                }
+
+                if (selectedDate && 
+                    selectedDate.getDate() === d && 
+                    selectedDate.getMonth() === currentMonth && 
+                    selectedDate.getFullYear() === currentYear) {
+                    btn.className = "p-1 text-[10px] font-black rounded bg-gradient-to-tr from-brand-600 to-brand-400 text-brand-1000 shadow-md";
+                }
+
+                btn.onclick = () => {
+                    selectedDate = thisDate;
+                    selectedTutorId = null; 
+                    renderCalendar();
+                    generateDynamicTutors();
+                };
+
+                grid.appendChild(btn);
+            }
+        }
+
+        function prevMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar();
+        }
+
+        function selectTimeSlot(slot) {
+            selectedTime = slot;
+            document.querySelectorAll('.time-slot-btn').forEach(btn => {
+                if (btn.textContent.replace('.', ':') === slot.replace('.', ':')) {
+                    btn.className = "time-slot-btn px-2 py-1.5 rounded-lg border-2 border-brand-400 text-[10px] font-bold text-center bg-brand-900/60 text-white shadow-[0_0_12px_rgba(56,189,248,0.2)]";
+                } else {
+                    btn.className = "time-slot-btn px-2 py-1.5 rounded-lg border border-brand-900 text-[10px] font-semibold text-center bg-brand-1000/40 text-slate-300";
+                }
+            });
+            selectedTutorId = null;
+            generateDynamicTutors();
+        }
+
+        function generateDynamicTutors() {
+            const list = document.getElementById('dynamic-tutors-list');
+            list.innerHTML = '';
+
+            if (!selectedDate || !selectedTime) {
+                list.innerHTML = `<p class="text-[11px] text-slate-400 text-center py-4">Silakan tentukan Tanggal dan Jam belajar di atas terlebih dahulu.</p>`;
+                return;
+            }
+
+            const dayOfWeek = selectedDate.getDay(); 
+
+            // Filter tutors who teach on this day AND are available at this hour
+            const matches = tutorsData.filter(t => 
+                t.days.includes(dayOfWeek) && t.hours.includes(selectedTime)
+            );
+
+            if (matches.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-4 bg-brand-1000/50 rounded-xl border border-brand-900">
+                        <i class="fa-regular fa-calendar-times text-slate-600 text-xl mb-1"></i>
+                        <p class="text-[11px] font-bold text-slate-400">Jadwal Tutor Kosong</p>
+                        <p class="text-[10px] text-slate-500">Cobalah memilih sesi jam lain atau ubah tanggal bimbingan Anda.</p>
+                    </div>`;
+                return;
+            }
+
+            matches.forEach(t => {
+                const borderStyle = selectedTutorId === t.id ? 'border-brand-500 bg-brand-900/25 shadow-[0_0_10px_rgba(56,189,248,0.1)]' : 'border-brand-900 bg-brand-1000/40 hover:border-brand-850';
+                const roleBadge = t.role === 'Mahasiswa' ? 'bg-brand-500/10 text-brand-400' : 'bg-emerald-500/10 text-emerald-400';
+
+                const div = document.createElement('div');
+                div.className = `p-3 rounded-lg border transition-all cursor-pointer flex items-center justify-between ${borderStyle}`;
+                div.onclick = () => {
+                    selectedTutorId = t.id;
+                    generateDynamicTutors();
+                };
+
+                div.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <img src="${t.avatar}" onerror="this.onerror=null; this.src='https://placehold.co/100x100/0c4a6e/ffffff?text=${t.avatar}';" class="w-8 h-8 rounded object-cover border border-brand-800">
+                        <div>
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <h4 class="font-bold text-white text-[11px] leading-none">${t.name}</h4>
+                                <span class="text-[7px] px-1.5 py-0.5 rounded border border-transparent font-bold uppercase tracking-wider ${roleBadge}">${t.role}</span>
+                            </div>
+                            <p class="text-[9px] text-slate-400 mt-1">${t.grad}</p>
+                            <p class="text-[9px] text-brand-300 font-semibold">${t.subject}</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end gap-1">
+                        <span class="text-[11px] font-black text-emerald-400">Rp ${t.price.toLocaleString('id-ID')}</span>
+                        <div class="w-3.5 h-3.5 rounded-full border border-brand-800 flex items-center justify-center ${selectedTutorId === t.id ? 'bg-brand-500 border-brand-500 text-brand-1000' : ''}">
+                            ${selectedTutorId === t.id ? '<i class="fa-solid fa-check text-[9px]"></i>' : ''}
+                        </div>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function selectPayment(method) {
+            selectedPaymentMethod = method;
+            document.querySelectorAll('.payment-method-btn').forEach(btn => {
+                const text = btn.querySelector('span').textContent;
+                if (text === method) {
+                    btn.className = "payment-method-btn flex items-center justify-between p-2.5 rounded-lg border-2 border-brand-400 bg-brand-900/50 text-left transition-all shadow-[0_0_10px_rgba(56,189,248,0.15)]";
+                } else {
+                    btn.className = "payment-method-btn flex items-center justify-between p-2.5 rounded-lg border border-brand-850 bg-brand-1000/40 text-left transition-all";
+                }
+            });
+        }
+
+        function showStep(step) {
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.add('hidden');
+            document.getElementById('step-3').classList.add('hidden');
+            document.getElementById('step-4').classList.add('hidden');
+
+            document.getElementById(`step-${step}`).classList.remove('hidden');
+
+            const dot1 = document.getElementById('step-dot-1');
+            const dot2 = document.getElementById('step-dot-2');
+            const dot3 = document.getElementById('step-dot-3');
+
+            dot1.className = `flex items-center gap-1 ${step >= 1 ? 'text-brand-300 font-bold' : 'text-slate-500'}`;
+            dot1.querySelector('span').className = `w-4.5 h-4.5 rounded-full flex items-center justify-center font-bold text-[9px] ${step >= 1 ? 'bg-brand-900 text-brand-300' : 'bg-brand-1000 text-slate-500 border border-brand-900'}`;
+
+            dot2.className = `flex items-center gap-1 ${step >= 2 ? 'text-brand-300 font-bold' : 'text-slate-500'}`;
+            dot2.querySelector('span').className = `w-4.5 h-4.5 rounded-full flex items-center justify-center font-bold text-[9px] ${step >= 2 ? 'bg-brand-900 text-brand-300' : 'bg-brand-1000 text-slate-500 border border-brand-900'}`;
+
+            dot3.className = `flex items-center gap-1 ${step >= 3 ? 'text-brand-300 font-bold' : 'text-slate-500'}`;
+            dot3.querySelector('span').className = `w-4.5 h-4.5 rounded-full flex items-center justify-center font-bold text-[9px] ${step >= 3 ? 'bg-brand-900 text-brand-300' : 'bg-brand-1000 text-slate-500 border border-brand-900'}`;
+
+            const prevBtn = document.getElementById('prev-btn');
+            const prevSpacer = document.getElementById('prev-spacer');
+            const nextBtn = document.getElementById('next-btn');
+            const footer = document.getElementById('modal-footer');
+
+            if (step === 1) {
+                prevBtn.classList.add('hidden');
+                prevSpacer.classList.remove('hidden');
+                nextBtn.querySelector('span').textContent = "Lanjut Pilih Tutor";
+            } else if (step === 2) {
+                prevBtn.classList.remove('hidden');
+                prevSpacer.classList.add('hidden');
+                nextBtn.querySelector('span').textContent = "Lanjut Pembayaran";
+            } else if (step === 3) {
+                prevBtn.classList.remove('hidden');
+                prevSpacer.classList.add('hidden');
+                nextBtn.querySelector('span').textContent = "Bayar Sekarang";
+            } else if (step === 4) {
+                footer.classList.add('hidden');
+            }
+        }
+
+        function nextStep() {
+            if (currentStep === 1) {
+                const name = document.getElementById('student-name').value.trim();
+                const dropdownSubject = document.getElementById('subject-dropdown').value;
+                const customSubjectInput = document.getElementById('custom-subject').value.trim();
+
+                if (!name) {
+                    toastMessage("Data Kurang", "Harap masukkan nama lengkap Anda.");
+                    return;
+                }
+                
+                if (dropdownSubject === "LAINNYA") {
+                    if (!customSubjectInput) {
+                        toastMessage("Mata Kuliah Kosong", "Harap isikan nama mata kuliah khusus Anda.");
+                        return;
+                    }
+                    selectedSubject = customSubjectInput;
+                } else {
+                    if (!dropdownSubject) {
+                        toastMessage("Mata Kuliah Kosong", "Harap tentukan mata kuliah yang ingin Anda pelajari.");
+                        return;
+                    }
+                    selectedSubject = dropdownSubject;
+                }
+
+                if (!selectedMode) {
+                    toastMessage("Format Sesi Kosong", "Harap pilih format belajar (Online atau Offline).");
+                    return;
+                }
+
+                if (!selectedDate) {
+                    toastMessage("Tanggal Kosong", "Harap pilih tanggal belajar pada kalender.");
+                    return;
+                }
+
+                if (!selectedTime) {
+                    toastMessage("Jam Sesi Kosong", "Harap tentukan slot jam belajar bimbingan Anda.");
+                    return;
+                }
+
+                generateDynamicTutors();
+                currentStep = 2;
+                showStep(2);
+            } 
+            else if (currentStep === 2) {
+                if (!selectedTutorId) {
+                    toastMessage("Tutor Belum Terpilih", "Harap pilih salah satu mentor aktif yang tersedia.");
+                    return;
+                }
+
+                const tutorObj = tutorsData.find(t => t.id === selectedTutorId);
+                const readableDate = selectedDate.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+                document.getElementById('summary-name').textContent = document.getElementById('student-name').value.trim();
+                document.getElementById('summary-subject').textContent = selectedSubject;
+                document.getElementById('summary-mode').textContent = selectedMode;
+                document.getElementById('summary-datetime').textContent = `${readableDate} (${selectedTime})`;
+                document.getElementById('summary-tutor').textContent = tutorObj.name;
+                document.getElementById('summary-class').textContent = `${tutorObj.role} (${tutorObj.grad.split(' &bull; ')[0]})`;
+                document.getElementById('summary-price').textContent = `Rp ${tutorObj.price.toLocaleString('id-ID')}`;
+
+                currentStep = 3;
+                showStep(3);
+            } 
+            else if (currentStep === 3) {
+                if (!selectedPaymentMethod) {
+                    toastMessage("Pembayaran Belum Dipilih", "Harap tentukan metode pembayaran simulasi yang ingin Anda gunakan.");
+                    return;
+                }
+
+                const tutorObj = tutorsData.find(t => t.id === selectedTutorId);
+                const readableDate = selectedDate.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                const name = document.getElementById('student-name').value.trim();
+
+                const waMessage = `Halo ${tutorObj.name},\n\n` +
+                    `Saya telah memesan Sesi Belajar Dadakan di Lesketika dengan rincian berikut:\n\n` +
+                    `👤 Nama Mahasiswa: ${name}\n` +
+                    `📚 Mata Kuliah: ${selectedSubject}\n` +
+                    `📍 Format Kelas: ${selectedMode}\n` +
+                    `📅 Hari, Tanggal: ${readableDate}\n` +
+                    `⏰ Sesi Jam: ${selectedTime} WIB\n` +
+                    `💳 Metode Pembayaran: ${selectedPaymentMethod} (LUNAS)\n\n` +
+                    `Mohon konfirmasi kesiapan materi Anda. Terima kasih banyak!`;
+
+                const waUrl = `https://wa.me/${tutorObj.phone}?text=${encodeURIComponent(waMessage)}`;
+                document.getElementById('whatsapp-redirect-btn').setAttribute('href', waUrl);
+
+                currentStep = 4;
+                showStep(4);
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+
+        function triggerDirectRegistration(role) {
+            toastMessage(`Registrasi ${role} Diproses`, `Halaman pengisian profil ${role} baru telah dibuka di tab latar belakang!`);
+        }
+
+        function toastMessage(title, description) {
+            const toast = document.createElement('div');
+            toast.className = "fixed bottom-4 right-4 z-[999] w-11/12 max-w-xs bg-brand-950 border border-brand-800 text-slate-100 p-3 rounded-xl shadow-xl flex items-start gap-2.5 animate-bounce";
+            toast.innerHTML = `
+                <i class="fa-solid fa-triangle-exclamation text-brand-400 mt-0.5"></i>
+                <div class="flex-1">
+                    <h5 class="text-xs font-bold">${title}</h5>
+                    <p class="text-[10px] text-slate-400 mt-0.5">${description}</p>
+                </div>
+                <button onclick="this.parentElement.remove()" class="text-slate-500 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                if (toast) toast.remove();
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
