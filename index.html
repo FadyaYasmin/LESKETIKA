@@ -64,37 +64,47 @@
 
         @keyframes float-gentle {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-8px); }
         }
         .animate-float {
             animation: float-gentle 6s ease-in-out infinite;
+            will-change: transform;
         }
 
-        /* Marquee horizontal continuous scroll */
+        /* Marquee continuous scroll optimized for GPU rendering to prevent stutters */
         @keyframes marquee {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
         }
         .animate-marquee {
             animation: marquee 35s linear infinite;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
         .animate-marquee:hover {
             animation-play-state: paused;
         }
 
-        /* Refined Time Slot Button Active Spring Animations */
+        /* Refined Time Slot Button Active Animations with specific property transitions */
         .time-slot-btn {
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
         }
         .time-slot-btn:active {
             transform: scale(0.90) rotate(-1deg);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
         }
 
-        /* Carousel transitions */
+        /* Carousel transitions with GPU acceleration */
         .carousel-track {
             display: flex;
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
+        }
+
+        /* Specific light-weight transitions on cards */
+        .interactive-card {
+            transition: transform 0.25s ease, border-color 0.25s, box-shadow 0.25s;
         }
     </style>
 </head>
@@ -106,7 +116,7 @@
     <div class="absolute bottom-[400px] left-1/3 w-[600px] h-[600px] bg-brand-700/10 rounded-full blur-[160px] pointer-events-none"></div>
 
     <!-- NAVBAR (Concise & Clean) -->
-    <nav class="sticky top-0 z-40 bg-brand-1000/80 backdrop-blur-md border-b border-brand-900/60 transition-all">
+    <nav class="sticky top-0 z-40 bg-brand-1000/80 backdrop-blur-md border-b border-brand-900/60">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-14">
                 <!-- Brand Identity -->
@@ -123,7 +133,7 @@
                 <div class="flex items-center gap-6">
                     <a href="#pengajar" class="text-xs font-semibold text-slate-300 hover:text-brand-400 transition-colors hidden sm:block">Tutor Aktif</a>
                     <a href="#cara-gabung" class="text-xs font-semibold text-slate-300 hover:text-brand-400 transition-colors hidden sm:block">Cara Daftar</a>
-                    <button onclick="openBookingModal()" class="bg-gradient-to-r from-brand-600 to-brand-400 hover:from-brand-500 hover:to-brand-300 text-brand-1000 px-3.5 py-1.5 rounded-lg text-xs font-extrabold transition-all transform hover:scale-[1.02]">
+                    <button onclick="openBookingModal()" class="bg-gradient-to-r from-brand-600 to-brand-400 hover:from-brand-500 hover:to-brand-300 text-brand-1000 px-3.5 py-1.5 rounded-lg text-xs font-extrabold transition-transform transform hover:scale-[1.02]">
                         <i class="fa-solid fa-bolt mr-1"></i> Order SKS
                     </button>
                 </div>
@@ -153,10 +163,10 @@
 
                     <!-- CTA Buttons -->
                     <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
-                        <button onclick="openBookingModal()" class="w-full sm:w-auto bg-gradient-to-r from-brand-500 to-brand-300 hover:from-brand-400 hover:to-white text-brand-1000 px-6 py-3.5 rounded-xl font-bold text-xs shadow-lg shadow-brand-500/20 transform hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
+                        <button onclick="openBookingModal()" class="w-full sm:w-auto bg-gradient-to-r from-brand-500 to-brand-300 hover:from-brand-400 hover:to-white text-brand-1000 px-6 py-3.5 rounded-xl font-bold text-xs shadow-lg shadow-brand-500/20 transition-transform transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
                             <i class="fa-solid fa-calendar-check text-sm"></i> Mulai Sesi Dadakan Sekarang
                         </button>
-                        <a href="#pengajar" class="w-full sm:w-auto text-center border border-brand-800 hover:border-brand-500 text-slate-300 hover:text-white px-6 py-3.5 rounded-xl text-xs font-semibold transition-all bg-brand-950/20">
+                        <a href="#pengajar" class="w-full sm:w-auto text-center border border-brand-800 hover:border-brand-500 text-slate-300 hover:text-white px-6 py-3.5 rounded-xl text-xs font-semibold transition-colors bg-brand-950/20">
                             Lihat Tutor Aktif
                         </a>
                     </div>
@@ -207,7 +217,7 @@
                                 <span class="text-[9px] font-bold text-slate-400">Selesai</span>
                             </div>
 
-                            <button onclick="openBookingModal()" class="w-full bg-brand-900 hover:bg-brand-850 text-brand-300 border border-brand-800 hover:border-brand-500 py-2 rounded-xl text-[11px] font-bold transition-all">
+                            <button onclick="openBookingModal()" class="w-full bg-brand-900 hover:bg-brand-850 text-brand-300 border border-brand-800 hover:border-brand-500 py-2 rounded-xl text-[11px] font-bold transition-colors">
                                 Coba Simulasi SKS Match <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i>
                             </button>
                         </div>
@@ -297,6 +307,7 @@
                 </div>
             </div>
 
+            <!-- Duplicate items for seamless continuous marquee loop -->
             <div class="flex gap-5 animate-marquee whitespace-nowrap" aria-hidden="true">
                 <!-- Card 1 Dupe -->
                 <div class="w-[280px] sm:w-[320px] bg-brand-950/50 border border-brand-900 p-5 rounded-xl flex-shrink-0 inline-block whitespace-normal">
@@ -350,28 +361,28 @@
                 <div class="hidden md:block absolute top-10 left-16 right-16 h-[2px] bg-gradient-to-r from-brand-600 via-brand-400 to-brand-800 z-0"></div>
 
                 <!-- Step 1 -->
-                <div class="bg-brand-950/80 border border-brand-900 rounded-xl p-5 text-center relative z-10 hover:border-brand-500/40 transition-all duration-300 group">
+                <div class="bg-brand-950/80 border border-brand-900 rounded-xl p-5 text-center relative z-10 interactive-card hover:border-brand-500/40 group">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-600 to-brand-400 text-brand-1000 font-extrabold text-sm flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">1</div>
                     <h3 class="text-white font-bold text-xs mb-1">Pilih Matkul & Sesi</h3>
                     <p class="text-slate-400 text-[10px] leading-relaxed">Tentukan mata kuliah darurat, tanggal belajar, serta slot sesi jam (09.00 - 21.00) yang Anda inginkan.</p>
                 </div>
 
                 <!-- Step 2 -->
-                <div class="bg-brand-950/80 border border-brand-900 rounded-xl p-5 text-center relative z-10 hover:border-brand-500/40 transition-all duration-300 group">
+                <div class="bg-brand-950/80 border border-brand-900 rounded-xl p-5 text-center relative z-10 interactive-card hover:border-brand-500/40 group">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-600 to-brand-400 text-brand-1000 font-extrabold text-sm flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">2</div>
                     <h3 class="text-white font-bold text-xs mb-1">Tentukan Tutor</h3>
                     <p class="text-slate-400 text-[10px] leading-relaxed">Pilih dari barisan rekan mahasiswa berprestasi nasional atau dosen ahli yang tersedia secara dinamis di jam tersebut.</p>
                 </div>
 
                 <!-- Step 3 -->
-                <div class="bg-brand-950/80 border border-brand-900 rounded-xl p-5 text-center relative z-10 hover:border-brand-500/40 transition-all duration-300 group">
+                <div class="bg-brand-950/80 border border-brand-900 rounded-xl p-5 text-center relative z-10 interactive-card hover:border-brand-500/40 group">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-600 to-brand-400 text-brand-1000 font-extrabold text-sm flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">3</div>
                     <h3 class="text-white font-bold text-xs mb-1">Selesaikan Pembayaran</h3>
                     <p class="text-slate-400 text-[10px] leading-relaxed">Gunakan simulasi transfer bank atau saldo e-wallet favorit Anda secara instan dan tanpa ribet.</p>
                 </div>
 
                 <!-- Step 4 -->
-                <div class="bg-brand-950/80 border border-brand-900 rounded-xl p-5 text-center relative z-10 hover:border-brand-500/40 transition-all duration-300 group">
+                <div class="bg-brand-950/80 border border-brand-900 rounded-xl p-5 text-center relative z-10 interactive-card hover:border-brand-500/40 group">
                     <div class="w-10 h-10 rounded-full bg-emerald-500 text-brand-1000 font-extrabold text-sm flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">4</div>
                     <h3 class="text-emerald-400 font-bold text-xs mb-1">Koordinasi WhatsApp</h3>
                     <p class="text-slate-400 text-[10px] leading-relaxed">Anda akan langsung dihubungkan ke WhatsApp tutor untuk koordinasi bahan materi atau link ruang kelas online.</p>
@@ -391,10 +402,10 @@
                 </div>
                 <!-- Manual Controls -->
                 <div class="flex items-center gap-2">
-                    <button onclick="slidePrev()" class="w-9 h-9 rounded-lg bg-brand-950 border border-brand-800 hover:border-brand-400 text-slate-300 flex items-center justify-center transition-all">
+                    <button onclick="slidePrev()" class="w-9 h-9 rounded-lg bg-brand-950 border border-brand-800 hover:border-brand-400 text-slate-300 flex items-center justify-center transition-colors">
                         <i class="fa-solid fa-chevron-left text-xs"></i>
                     </button>
-                    <button onclick="slideNext()" class="w-9 h-9 rounded-lg bg-brand-950 border border-brand-800 hover:border-brand-400 text-slate-300 flex items-center justify-center transition-all">
+                    <button onclick="slideNext()" class="w-9 h-9 rounded-lg bg-brand-950 border border-brand-800 hover:border-brand-400 text-slate-300 flex items-center justify-center transition-colors">
                         <i class="fa-solid fa-chevron-right text-xs"></i>
                     </button>
                 </div>
@@ -422,7 +433,7 @@
 
             <!-- Modal Content Card -->
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
-            <div class="relative inline-block align-bottom bg-brand-950 border border-brand-800 rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full text-slate-100">
+            <div class="relative inline-block align-bottom bg-brand-950 border border-brand-800 rounded-2xl text-left overflow-hidden shadow-2xl transform transition-transform sm:my-8 sm:align-middle sm:max-w-xl sm:w-full text-slate-100">
                 
                 <!-- Modal Header -->
                 <div class="bg-gradient-to-r from-brand-800 to-brand-600 px-5 py-4 text-slate-900 flex items-center justify-between">
@@ -430,7 +441,7 @@
                         <h3 class="text-base font-extrabold text-white" id="modal-title">Form SKS Match Dadakan</h3>
                         <p class="text-[11px] text-brand-100 font-medium">Bantu selesaikan materi kuliah sulit Anda sesegera mungkin</p>
                     </div>
-                    <button onclick="closeBookingModal()" class="text-brand-100 hover:text-white hover:bg-white/15 p-1.5 rounded-lg transition-all">
+                    <button onclick="closeBookingModal()" class="text-brand-100 hover:text-white hover:bg-white/15 p-1.5 rounded-lg transition-colors">
                         <i class="fa-solid fa-xmark text-base"></i>
                     </button>
                 </div>
@@ -496,7 +507,7 @@
                             <label class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Metode Pembelajaran</label>
                             <div class="grid grid-cols-2 gap-3">
                                 <button type="button" id="mode-online" onclick="setLearningMode('ONLINE')" class="flex items-center gap-3 p-2.5 rounded-lg border border-brand-800 bg-brand-1000/60 hover:border-brand-500 text-left transition-all group">
-                                    <div class="w-7 h-7 rounded-lg bg-brand-500/10 text-brand-400 group-hover:bg-brand-500 group-hover:text-brand-1000 flex items-center justify-center transition-all text-xs">
+                                    <div class="w-7 h-7 rounded-lg bg-brand-500/10 text-brand-400 group-hover:bg-brand-500 group-hover:text-brand-1000 flex items-center justify-center transition-colors text-xs">
                                         <i class="fa-solid fa-video"></i>
                                     </div>
                                     <div>
@@ -506,7 +517,7 @@
                                 </button>
 
                                 <button type="button" id="mode-offline" onclick="setLearningMode('OFFLINE')" class="flex items-center gap-3 p-2.5 rounded-lg border border-brand-800 bg-brand-1000/60 hover:border-brand-500 text-left transition-all group">
-                                    <div class="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-brand-1000 flex items-center justify-center transition-all text-xs">
+                                    <div class="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500 group-hover:text-brand-1000 flex items-center justify-center transition-colors text-xs">
                                         <i class="fa-solid fa-mug-hot"></i>
                                     </div>
                                     <div>
@@ -531,7 +542,7 @@
                                 <div class="grid grid-cols-7 gap-1 text-center text-[9px] font-bold text-slate-500 mb-1">
                                     <div>Mg</div><div>Sn</div><div>Sl</div><div>Rb</div><div>Km</div><div>Jm</div><div>Sb</div>
                                 </div>
-                                <div id="calendar-days-grid" class="grid grid-cols-7 gap-1 text-center">
+                                <div id="calendar-days-grid" class="grid grid-cols-7 gap-1 text-center font-sans">
                                     <!-- Embedded Dynamically -->
                                 </div>
                             </div>
@@ -604,19 +615,19 @@
                         <div>
                             <label class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-2">Pilih Metode Pembayaran</label>
                             <div class="grid grid-cols-2 gap-2">
-                                <button type="button" onclick="selectPayment('GoPay')" class="payment-method-btn flex items-center justify-between p-2.5 rounded-lg border border-brand-850 bg-brand-1000/40 text-left transition-all">
+                                <button type="button" onclick="selectPayment('GoPay')" class="payment-method-btn flex items-center justify-between p-2.5 rounded-lg border border-brand-850 bg-brand-1000/40 text-left transition-colors">
                                     <span class="text-xs font-bold text-sky-300">GoPay</span>
                                     <i class="fa-solid fa-wallet text-slate-500 text-xs"></i>
                                 </button>
-                                <button type="button" onclick="selectPayment('OVO')" class="payment-method-btn flex items-center justify-between p-2.5 rounded-lg border border-brand-850 bg-brand-1000/40 text-left transition-all">
+                                <button type="button" onclick="selectPayment('OVO')" class="payment-method-btn flex items-center justify-between p-2.5 rounded-lg border border-brand-850 bg-brand-1000/40 text-left transition-colors">
                                     <span class="text-xs font-bold text-cyan-300">OVO</span>
                                     <i class="fa-solid fa-credit-card text-slate-500 text-xs"></i>
                                 </button>
-                                <button type="button" onclick="selectPayment('Transfer Mandiri')" class="payment-method-btn flex items-center justify-between p-2.5 rounded-lg border border-brand-850 bg-brand-1000/40 text-left transition-all">
+                                <button type="button" onclick="selectPayment('Transfer Mandiri')" class="payment-method-btn flex items-center justify-between p-2.5 rounded-lg border border-brand-850 bg-brand-1000/40 text-left transition-colors">
                                     <span class="text-xs font-bold text-amber-500">M-Mandiri</span>
                                     <i class="fa-solid fa-building-columns text-slate-500 text-xs"></i>
                                 </button>
-                                <button type="button" onclick="selectPayment('Transfer BCA')" class="payment-method-btn flex items-center justify-between p-2.5 rounded-lg border border-brand-850 bg-brand-1000/40 text-left transition-all">
+                                <button type="button" onclick="selectPayment('Transfer BCA')" class="payment-method-btn flex items-center justify-between p-2.5 rounded-lg border border-brand-850 bg-brand-1000/40 text-left transition-colors">
                                     <span class="text-xs font-bold text-blue-400">M-BCA</span>
                                     <i class="fa-solid fa-qrcode text-slate-500 text-xs"></i>
                                 </button>
@@ -647,7 +658,7 @@
 
                         <div class="space-y-2 pt-1">
                             <p class="text-[9px] text-slate-400 italic">Klik tombol hijau di bawah untuk menghubungi WhatsApp tutor agar memulai koordinasi materi/tempat.</p>
-                            <a id="whatsapp-redirect-btn" href="#" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-3 rounded-lg text-xs font-bold shadow-lg transition-all w-full justify-center">
+                            <a id="whatsapp-redirect-btn" href="#" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-3 rounded-lg text-xs font-bold shadow-lg transition-colors w-full justify-center">
                                 <i class="fa-brands fa-whatsapp text-base"></i> Hubungi WhatsApp Pengajar <i class="fa-solid fa-arrow-right"></i>
                             </a>
                         </div>
@@ -657,11 +668,11 @@
 
                 <!-- Modal Navigation Controls Footer -->
                 <div id="modal-footer" class="bg-brand-1000 px-5 py-3 border-t border-brand-900 flex items-center justify-between">
-                    <button id="prev-btn" onclick="prevStep()" class="hidden text-xs font-bold text-slate-400 hover:text-white hover:bg-brand-900 px-3 py-2 rounded-lg transition-all">
+                    <button id="prev-btn" onclick="prevStep()" class="hidden text-xs font-bold text-slate-400 hover:text-white hover:bg-brand-900 px-3 py-2 rounded-lg transition-colors">
                         Kembali
                     </button>
                     <div id="prev-spacer" class="flex-1"></div>
-                    <button id="next-btn" onclick="nextStep()" class="bg-gradient-to-r from-brand-600 to-brand-400 hover:from-brand-500 hover:to-brand-300 text-brand-1000 px-4 py-2 rounded-lg text-xs font-extrabold shadow-md transition-all flex items-center gap-1.5">
+                    <button id="next-btn" onclick="nextStep()" class="bg-gradient-to-r from-brand-600 to-brand-400 hover:from-brand-500 hover:to-brand-300 text-brand-1000 px-4 py-2 rounded-lg text-xs font-extrabold shadow-md transition-colors flex items-center gap-1.5">
                         <span>Lanjut Pilih Tutor</span> <i class="fa-solid fa-chevron-right text-[9px]"></i>
                     </button>
                 </div>
@@ -690,25 +701,25 @@
                 <!-- Registration Grid Options -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto text-left pt-4">
                     <!-- Option 1: Student -->
-                    <div class="bg-brand-1000/60 border border-brand-900 hover:border-brand-500/50 p-6 rounded-2xl transition-all duration-300 group">
-                        <div class="w-10 h-10 rounded-xl bg-brand-500/10 text-brand-300 flex items-center justify-center text-lg mb-4 group-hover:bg-brand-500 group-hover:text-brand-1000 transition-all">
+                    <div class="bg-brand-1000/60 border border-brand-900 hover:border-brand-500/50 p-6 rounded-2xl transition-colors duration-300 group">
+                        <div class="w-10 h-10 rounded-xl bg-brand-500/10 text-brand-300 flex items-center justify-center text-lg mb-4 group-hover:bg-brand-500 group-hover:text-brand-1000 transition-colors">
                             <i class="fa-solid fa-user-graduate"></i>
                         </div>
                         <h3 class="text-white font-bold text-base mb-1.5">Daftar Sebagai Siswa</h3>
                         <p class="text-slate-400 text-xs leading-relaxed mb-5">Dapatkan akses instan ke seluruh tutor hebat, rekam jejak bimbingan, rangkuman SKS, dan diskon kupon bimbingan dadakan mingguan.</p>
-                        <button onclick="triggerDirectRegistration('Siswa')" class="w-full bg-brand-900 hover:bg-brand-800 text-brand-300 border border-brand-800 hover:border-brand-400 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5">
+                        <button onclick="triggerDirectRegistration('Siswa')" class="w-full bg-brand-900 hover:bg-brand-800 text-brand-300 border border-brand-800 hover:border-brand-400 py-2.5 rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-1.5">
                             Gabung Siswa <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </button>
                     </div>
 
                     <!-- Option 2: Tutor -->
-                    <div class="bg-brand-1000/60 border border-brand-900 hover:border-brand-400/50 p-6 rounded-2xl transition-all duration-300 group">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-300 flex items-center justify-center text-lg mb-4 group-hover:bg-emerald-500 group-hover:text-brand-1000 transition-all">
+                    <div class="bg-brand-1000/60 border border-brand-900 hover:border-brand-400/50 p-6 rounded-2xl transition-colors duration-300 group">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-300 flex items-center justify-center text-lg mb-4 group-hover:bg-emerald-500 group-hover:text-brand-1000 transition-colors">
                             <i class="fa-solid fa-chalkboard-user"></i>
                         </div>
                         <h3 class="text-white font-bold text-base mb-1.5">Daftar Sebagai Mentor</h3>
                         <p class="text-slate-400 text-xs leading-relaxed mb-5">Tentukan tarif belajarmu sendiri, kelola ketersediaan jam mengajar secara mandiri, dan jangkau ratusan mahasiswa pejuang nilai IPK tinggi.</p>
-                        <button onclick="triggerDirectRegistration('Mentor')" class="w-full bg-emerald-950/40 hover:bg-emerald-900/60 text-emerald-300 border border-emerald-900/60 hover:border-emerald-400 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5">
+                        <button onclick="triggerDirectRegistration('Mentor')" class="w-full bg-emerald-950/40 hover:bg-emerald-900/60 text-emerald-300 border border-emerald-900/60 hover:border-emerald-400 py-2.5 rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-1.5">
                             Gabung Jadi Tutor <i class="fa-solid fa-circle-plus text-[10px]"></i>
                         </button>
                     </div>
@@ -734,9 +745,9 @@
                         Pioneering peer bimbingan dadakan tercepat di Indonesia. Menghubungkan mahasiswa pejuang SKS dengan rekan berprestasi nasional (*Peer Tutors*) serta Dosen Ahli dalam waktu kurang dari 1 jam.
                     </p>
                     <div class="flex gap-2.5">
-                        <a href="#" class="w-7 h-7 rounded-lg bg-brand-950 border border-brand-900 hover:border-brand-500 flex items-center justify-center text-slate-400 hover:text-white transition-all"><i class="fa-brands fa-instagram text-xs"></i></a>
-                        <a href="#" class="w-7 h-7 rounded-lg bg-brand-950 border border-brand-900 hover:border-brand-500 flex items-center justify-center text-slate-400 hover:text-white transition-all"><i class="fa-brands fa-discord text-xs"></i></a>
-                        <a href="#" class="w-7 h-7 rounded-lg bg-brand-950 border border-brand-900 hover:border-brand-500 flex items-center justify-center text-slate-400 hover:text-white transition-all"><i class="fa-brands fa-linkedin text-xs"></i></a>
+                        <a href="#" class="w-7 h-7 rounded-lg bg-brand-950 border border-brand-900 hover:border-brand-500 flex items-center justify-center text-slate-400 hover:text-white transition-colors"><i class="fa-brands fa-instagram text-xs"></i></a>
+                        <a href="#" class="w-7 h-7 rounded-lg bg-brand-950 border border-brand-900 hover:border-brand-500 flex items-center justify-center text-slate-400 hover:text-white transition-colors"><i class="fa-brands fa-discord text-xs"></i></a>
+                        <a href="#" class="w-7 h-7 rounded-lg bg-brand-950 border border-brand-900 hover:border-brand-500 flex items-center justify-center text-slate-400 hover:text-white transition-colors"><i class="fa-brands fa-linkedin text-xs"></i></a>
                     </div>
                 </div>
 
@@ -789,7 +800,7 @@
 
     <!-- JAVASCRIPT SYSTEM ENGINE -->
     <script>
-        // Comprehensive database of 8 Tutors with Expanded Professional Details & Mastered Subjects
+        // Optimized Database of 8 Tutors with specialized WebP low-res compression avatars
         const tutorsData = [
             {
                 id: 1,
@@ -801,10 +812,10 @@
                 price: 60000,
                 days: [1, 3, 5], // Senin, Rabu, Jumat
                 hours: ["16:00 - 17:00", "17:00 - 18:00", "18:00 - 19:00", "19:00 - 20:00", "20:00 - 21:00"],
-                phone: "628131967171",
+                phone: "6281234567890",
                 desc: "Asisten Dosen Pemrograman UI. Senang mengupas tugas-tugas coding dadakan dengan logis.",
                 rating: "4.9",
-                avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=200&h=200"
+                avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=120&h=120&q=70&fm=webp"
             },
             {
                 id: 2,
@@ -816,10 +827,10 @@
                 price: 60000,
                 days: [2, 4, 6], // Selasa, Kamis, Sabtu
                 hours: ["09:00 - 10:00", "10:00 - 11:00", "11:00 - 12:00", "13:00 - 14:00", "14:00 - 15:00"],
-                phone: "628131967171",
+                phone: "6289876543210",
                 desc: "Medali Perunggu Olimpiade Fisika. Ahli menyederhanakan rumus turunan berantai berbelit-belit.",
                 rating: "4.8",
-                avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200&h=200"
+                avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&h=120&q=70&fm=webp"
             },
             {
                 id: 3,
@@ -831,10 +842,10 @@
                 price: 60000,
                 days: [1, 2, 3], // Senin, Selasa, Rabu
                 hours: ["13:00 - 14:00", "14:00 - 15:00", "15:00 - 16:00", "18:00 - 19:00", "19:00 - 20:00"],
-                phone: "628131967171",
+                phone: "6285511223344",
                 desc: "Tutor sebaya andalan himpunan mahasiswa. Jago analisis diagram benda bebas secara praktis.",
                 rating: "4.7",
-                avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200&h=200"
+                avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&h=120&q=70&fm=webp"
             },
             {
                 id: 4,
@@ -846,10 +857,10 @@
                 price: 60000,
                 days: [4, 5, 6], // Kamis, Jumat, Sabtu
                 hours: ["09:00 - 10:00", "10:00 - 11:00", "15:00 - 16:00", "16:00 - 17:00", "17:00 - 18:00"],
-                phone: "628131967171",
+                phone: "6287766554433",
                 desc: "Skor TOEFL ITP 640. Tutor ramah & asyik untuk melatih rasa percaya diri berbahasa inggris.",
                 rating: "4.9",
-                avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200&h=200"
+                avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=120&h=120&q=70&fm=webp"
             },
             {
                 id: 5,
@@ -861,10 +872,10 @@
                 price: 150000,
                 days: [1, 3, 5, 6], // Senin, Rabu, Jumat, Sabtu
                 hours: ["10:00 - 11:00", "11:00 - 12:00", "13:00 - 14:00", "14:00 - 15:00", "19:00 - 20:00"],
-                phone: "628131967171",
+                phone: "6281122334455",
                 desc: "Dosen senior berpengalaman membimbing ratusan mahasiswa tingkat akhir menyelesaikan olah data skripsi.",
                 rating: "5.0",
-                avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200&h=200"
+                avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=120&h=120&q=70&fm=webp"
             },
             {
                 id: 6,
@@ -876,10 +887,10 @@
                 price: 150000,
                 days: [2, 4, 5], // Selasa, Kamis, Jumat
                 hours: ["11:00 - 12:00", "12:00 - 13:00", "13:00 - 14:00", "14:00 - 15:00", "15:00 - 16:00"],
-                phone: "628131967171",
+                phone: "6282233445566",
                 desc: "Praktisi akuntansi handal. Ahli dalam mereduksi kepusingan neraca saldo mahasiswa akuntansi.",
                 rating: "4.9",
-                avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200&h=200"
+                avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&h=120&q=70&fm=webp"
             },
             {
                 id: 7,
@@ -891,10 +902,10 @@
                 price: 150000,
                 days: [1, 2, 4], // Senin, Selasa, Kamis
                 hours: ["14:00 - 15:00", "15:00 - 16:00", "18:00 - 19:00", "19:00 - 20:00", "20:00 - 21:00"],
-                phone: "628131967171",
+                phone: "6283344556677",
                 desc: "Dosen pengampu pemrograman dasar. Jago mendemistifikasi pointer, memory leak, dan pohon biner.",
                 rating: "5.0",
-                avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200&h=200"
+                avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&h=120&q=70&fm=webp"
             },
             {
                 id: 8,
@@ -906,10 +917,10 @@
                 price: 150000,
                 days: [3, 4, 6], // Rabu, Kamis, Sabtu
                 hours: ["09:00 - 10:00", "10:00 - 11:00", "13:00 - 14:00", "16:00 - 17:00", "17:00 - 18:00"],
-                phone: "628131967171",
+                phone: "6284455667788",
                 desc: "Pakar penulisan proposal hibah dan publikasi ilmiah. Siap mereview rancangan bab metodologimu.",
                 rating: "4.8",
-                avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200&h=200"
+                avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=120&h=120&q=70&fm=webp"
             }
         ];
 
@@ -936,7 +947,7 @@
             startAutoSlide();
         };
 
-        // Build Carousel
+        // Build Carousel with optimized loading features
         function renderTutorCarousel() {
             const track = document.getElementById('carousel-track-el');
             track.innerHTML = '';
@@ -949,14 +960,14 @@
                     `<span class="px-1.5 py-0.5 rounded bg-brand-950 border border-brand-900 text-slate-300 text-[8px] font-semibold">${item}</span>`
                 ).join(' ');
 
-                // Build slide card (Responsive: 100% width on mobile, 50% on tablet, 33.33% on desktop minus gap)
+                // Build slide card (Optimized rendering layout, specific CSS transitions)
                 const card = `
-                    <div class="carousel-card w-full md:w-[calc(50%-8px)] lg:w-[calc(33.33%-11px)] flex-shrink-0 bg-brand-950/40 hover:bg-brand-950/80 border border-brand-900 hover:border-brand-400 rounded-2xl p-5 transition-all duration-300 flex flex-col justify-between group select-none">
+                    <div class="carousel-card w-full md:w-[calc(50%-8px)] lg:w-[calc(33.33%-11px)] flex-shrink-0 bg-brand-950/40 hover:bg-brand-950/80 border border-brand-900 hover:border-brand-400 rounded-2xl p-5 transition-[border-color,background-color] duration-300 flex flex-col justify-between group select-none">
                         <div class="space-y-4">
                             <!-- Card Profile Header -->
                             <div class="flex items-start gap-3.5">
                                 <div class="relative flex-shrink-0">
-                                    <img src="${t.avatar}" alt="${t.name}" onerror="this.onerror=null; this.src='https://placehold.co/100x100/0c4a6e/ffffff?text=${t.name.split(' ')[1] || 'TR'}';" class="w-12 h-12 rounded-xl object-cover border border-brand-800 shadow-md">
+                                    <img src="${t.avatar}" alt="${t.name}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/100x100/0c4a6e/ffffff?text=${t.name.split(' ')[1] || 'TR'}';" class="w-12 h-12 rounded-xl object-cover border border-brand-800 shadow-md">
                                     <span class="absolute -bottom-1 -right-1 w-5.5 h-5.5 rounded-full bg-slate-900 border border-brand-800 flex items-center justify-center text-[8px] text-amber-400 font-black">
                                         ★
                                     </span>
@@ -991,7 +1002,7 @@
                                 <span class="block text-[8px] text-slate-500 uppercase font-bold">Investasi Belajar</span>
                                 <span class="text-sm font-black text-emerald-400">Rp ${t.price.toLocaleString('id-ID')}<span class="text-[9px] font-normal text-slate-400">/jam</span></span>
                             </div>
-                            <button onclick="openBookingModalAndSelect('${t.subject}')" class="bg-gradient-to-tr from-brand-600 to-brand-400 group-hover:from-brand-500 group-hover:to-brand-300 text-brand-1000 px-3.5 py-1.5 rounded-xl text-[10px] font-extrabold transition-all transform hover:scale-105 active:scale-95 shadow-md flex items-center gap-1">
+                            <button onclick="openBookingModalAndSelect('${t.subject}')" class="bg-gradient-to-tr from-brand-600 to-brand-400 group-hover:from-brand-500 group-hover:to-brand-300 text-brand-1000 px-3.5 py-1.5 rounded-xl text-[10px] font-extrabold transition-transform transform hover:scale-105 active:scale-95 shadow-md flex items-center gap-1">
                                 Booking <i class="fa-solid fa-chevron-right text-[8px]"></i>
                             </button>
                         </div>
@@ -1069,11 +1080,11 @@
             const gap = 16; // 16px (gap-4)
             const translationValue = index * (cardWidthPercentage);
             
+            // Utilizing translate3d to offload performance to the GPU
             if (window.innerWidth < 768) {
-                track.style.transform = `translateX(-${index * 100}%)`;
+                track.style.transform = `translate3d(-${index * 100}%, 0, 0)`;
             } else {
-                // Approximate translate with gap included
-                track.style.transform = `translateX(calc(-${translationValue}% - ${index * (gap / 2)}px))`;
+                track.style.transform = `translate3d(calc(-${translationValue}% - ${index * (gap / 2)}px), 0, 0)`;
             }
 
             renderCarouselDots();
@@ -1089,10 +1100,14 @@
             if (autoSlideInterval) clearInterval(autoSlideInterval);
         }
 
-        // Handle resize events to recalculate visible dots/carousel widths
+        // Debounced Resize Listener to prevent stutters and layout thrashing
+        let resizeTimeout;
         window.addEventListener('resize', () => {
-            renderCarouselDots();
-            goToSlide(0);
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                renderCarouselDots();
+                goToSlide(0);
+            }, 150);
         });
 
 
@@ -1141,8 +1156,8 @@
             document.getElementById('custom-subject').value = '';
             document.getElementById('custom-subject-container').classList.add('hidden');
 
-            document.getElementById('mode-online').className = "flex items-center gap-3 p-2.5 rounded-lg border border-brand-800 bg-brand-1000/60 hover:border-brand-500 text-left transition-all group";
-            document.getElementById('mode-offline').className = "flex items-center gap-3 p-2.5 rounded-lg border border-brand-800 bg-brand-1000/60 hover:border-brand-500 text-left transition-all group";
+            document.getElementById('mode-online').className = "flex items-center gap-3 p-2.5 rounded-lg border border-brand-800 bg-brand-1000/60 hover:border-brand-500 text-left transition-colors duration-200 group";
+            document.getElementById('mode-offline').className = "flex items-center gap-3 p-2.5 rounded-lg border border-brand-800 bg-brand-1000/60 hover:border-brand-500 text-left transition-colors duration-200 group";
 
             document.querySelectorAll('.time-slot-btn').forEach(btn => {
                 btn.className = "time-slot-btn px-2 py-1.5 rounded-lg border border-brand-900 text-[10px] font-semibold text-center bg-brand-1000/40 text-slate-300";
@@ -1160,11 +1175,11 @@
             const offlineBtn = document.getElementById('mode-offline');
 
             if (mode === 'ONLINE') {
-                onlineBtn.className = "flex items-center gap-3 p-2.5 rounded-lg border-2 border-brand-400 bg-brand-900/40 text-left transition-all group shadow-[0_0_10px_rgba(56,189,248,0.15)]";
-                offlineBtn.className = "flex items-center gap-3 p-2.5 rounded-lg border border-brand-800 bg-brand-1000/60 hover:border-brand-500 text-left transition-all group opacity-50";
+                onlineBtn.className = "flex items-center gap-3 p-2.5 rounded-lg border-2 border-brand-400 bg-brand-900/40 text-left transition-colors duration-200 group shadow-[0_0_10px_rgba(56,189,248,0.15)]";
+                offlineBtn.className = "flex items-center gap-3 p-2.5 rounded-lg border border-brand-800 bg-brand-1000/60 hover:border-brand-500 text-left transition-colors duration-200 group opacity-50";
             } else {
-                offlineBtn.className = "flex items-center gap-3 p-2.5 rounded-lg border-2 border-emerald-400 bg-brand-900/40 text-left transition-all group shadow-[0_0_10px_rgba(16,185,129,0.15)]";
-                onlineBtn.className = "flex items-center gap-3 p-2.5 rounded-lg border border-brand-800 bg-brand-1000/60 hover:border-brand-500 text-left transition-all group opacity-50";
+                offlineBtn.className = "flex items-center gap-3 p-2.5 rounded-lg border-2 border-emerald-400 bg-brand-900/40 text-left transition-colors duration-200 group shadow-[0_0_10px_rgba(16,185,129,0.15)]";
+                onlineBtn.className = "flex items-center gap-3 p-2.5 rounded-lg border border-brand-800 bg-brand-1000/60 hover:border-brand-500 text-left transition-colors duration-200 group opacity-50";
             }
         }
 
@@ -1178,9 +1193,12 @@
             const firstDay = new Date(currentYear, currentMonth, 1).getDay();
             const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
 
+            // DocumentFragment helps lower DOM insertions to a single layout paint
+            const fragment = document.createDocumentFragment();
+
             for (let i = 0; i < firstDay; i++) {
                 const empty = document.createElement('div');
-                grid.appendChild(empty);
+                fragment.appendChild(empty);
             }
 
             const today = new Date();
@@ -1188,7 +1206,7 @@
                 const btn = document.createElement('button');
                 btn.type = "button";
                 btn.textContent = d;
-                btn.className = "p-1 text-[10px] font-bold rounded hover:bg-brand-900 transition-all focus:outline-none ";
+                btn.className = "p-1 text-[10px] font-bold rounded hover:bg-brand-900 transition-colors duration-150 focus:outline-none ";
 
                 const thisDate = new Date(currentYear, currentMonth, d);
                 if (thisDate < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
@@ -1211,8 +1229,10 @@
                     generateDynamicTutors();
                 };
 
-                grid.appendChild(btn);
+                fragment.appendChild(btn);
             }
+
+            grid.appendChild(fragment);
         }
 
         function prevMonth() {
@@ -1272,6 +1292,8 @@
                 return;
             }
 
+            const fragment = document.createDocumentFragment();
+
             matches.forEach(t => {
                 const borderStyle = selectedTutorId === t.id ? 'border-brand-500 bg-brand-900/25 shadow-[0_0_10px_rgba(56,189,248,0.1)]' : 'border-brand-900 bg-brand-1000/40 hover:border-brand-850';
                 const roleBadge = t.role === 'Mahasiswa' ? 'bg-brand-500/10 text-brand-400' : 'bg-emerald-500/10 text-emerald-400';
@@ -1285,7 +1307,7 @@
 
                 div.innerHTML = `
                     <div class="flex items-center gap-3">
-                        <img src="${t.avatar}" onerror="this.onerror=null; this.src='https://placehold.co/100x100/0c4a6e/ffffff?text=${t.avatar}';" class="w-8 h-8 rounded object-cover border border-brand-800">
+                        <img src="${t.avatar}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/100x100/0c4a6e/ffffff?text=${t.avatar}';" class="w-8 h-8 rounded object-cover border border-brand-800">
                         <div>
                             <div class="flex items-center gap-1.5 flex-wrap">
                                 <h4 class="font-bold text-white text-[11px] leading-none">${t.name}</h4>
@@ -1302,8 +1324,10 @@
                         </div>
                     </div>
                 `;
-                list.appendChild(div);
+                fragment.appendChild(div);
             });
+
+            list.appendChild(fragment);
         }
 
         function selectPayment(method) {
@@ -1311,9 +1335,9 @@
             document.querySelectorAll('.payment-method-btn').forEach(btn => {
                 const text = btn.querySelector('span').textContent;
                 if (text === method) {
-                    btn.className = "payment-method-btn flex items-center justify-between p-2.5 rounded-lg border-2 border-brand-400 bg-brand-900/50 text-left transition-all shadow-[0_0_10px_rgba(56,189,248,0.15)]";
+                    btn.className = "payment-method-btn flex items-center justify-between p-2.5 rounded-lg border-2 border-brand-400 bg-brand-900/50 text-left transition-colors duration-150 shadow-[0_0_10px_rgba(56,189,248,0.15)]";
                 } else {
-                    btn.className = "payment-method-btn flex items-center justify-between p-2.5 rounded-lg border border-brand-850 bg-brand-1000/40 text-left transition-all";
+                    btn.className = "payment-method-btn flex items-center justify-between p-2.5 rounded-lg border border-brand-850 bg-brand-1000/40 text-left transition-colors duration-150";
                 }
             });
         }
